@@ -112,7 +112,7 @@
                 var u_id = getCookie('u_id');
                 if (!u_id) {
                     alert("請先登入以提交預約！");
-                    window.location.href = "http://192.168.10.66/car_user_login.html";
+                    window.location.href = "car_user_login.html";
                     return;
                 }
 
@@ -132,7 +132,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "http://192.168.10.66/appointments_api.php?action=create_reservation",
+                    url: "appointments_api.php?action=create_reservation",
                     data: JSON.stringify(formData),
                     contentType: "application/json",
                     dataType: "json",
