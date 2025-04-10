@@ -1,10 +1,19 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Origin: https://chihliang0201.github.io');
 header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Origin: https://chihliang0201.github.io');
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+    header('Access-Control-Allow-Headers: Content-Type');
+    http_response_code(200);
+    exit;
+}
 
 const DB_SERVER    = "sql108.infinityfree.com";
 const DB_USER_NAME = "if0_38714653";
