@@ -3,7 +3,7 @@
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\Server\IoServer;
-use Ratchet\Http\HttpServer;
+use Ratchet\Http\httperver;
 use Ratchet\WebSocket\WsServer;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
@@ -152,7 +152,7 @@ class Chat implements MessageComponentInterface
 }
 
 $server = IoServer::factory(
-    new HttpServer(
+    new httperver(
         new WsServer(
             new Chat()
         )

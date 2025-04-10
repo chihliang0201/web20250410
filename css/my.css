@@ -27,7 +27,7 @@
     font-weight: 900;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Kosugi&family=Noto+Sans+JP:wght@100..900&family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet');
+@import url('http://fonts.googleapis.com/css2?family=Kosugi&family=Noto+Sans+JP:wght@100..900&family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet');
 
 :root {
     --mycolor01: #0359ae;

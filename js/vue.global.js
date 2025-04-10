@@ -12250,8 +12250,8 @@ Expected function or array of functions, received type ${typeof value}.`
       const compilerOptions = app.config.compilerOptions;
       const msg = `The \`compilerOptions\` config option is only respected when using a build of Vue.js that includes the runtime compiler (aka "full build"). Since you are using the runtime-only build, \`compilerOptions\` must be passed to \`@vue/compiler-dom\` in the build setup instead.
 - For vue-loader: pass it via vue-loader's \`compilerOptions\` loader option.
-- For vue-cli: see https://cli.vuejs.org/guide/webpack.html#modifying-options-of-a-loader
-- For vite: pass it via @vitejs/plugin-vue options. See https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue#example-for-passing-options-to-vuecompiler-sfc`;
+- For vue-cli: see http://cli.vuejs.org/guide/webpack.html#modifying-options-of-a-loader
+- For vite: pass it via @vitejs/plugin-vue options. See http://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue#example-for-passing-options-to-vuecompiler-sfc`;
       Object.defineProperty(app.config, "compilerOptions", {
         get() {
           warn(msg);
@@ -17289,7 +17289,7 @@ Use a v-bind binding combined with a v-on listener that emits update:x event ins
         return TRANSITION_GROUP;
       }
     },
-    // https://html.spec.whatwg.org/multipage/parsing.html#tree-construction-dispatcher
+    // http://html.spec.whatwg.org/multipage/parsing.html#tree-construction-dispatcher
     getNamespace(tag, parent, rootNamespace) {
       let ns = parent ? parent.ns : rootNamespace;
       if (parent && ns === 2) {

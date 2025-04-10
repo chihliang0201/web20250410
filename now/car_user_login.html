@@ -59,7 +59,7 @@
                 };
                 $.ajax({
                     type: "POST",
-                    url: "https://chihliang.infinityfreeapp.com/users_api.php?action=login",
+                    url: "http://chihliang.infinityfreeapp.com/users_api.php?action=login",
                     data: JSON.stringify(userData),
                     contentType: "application/json",
                     success: function (data) {
@@ -68,7 +68,7 @@
                             alert("登入成功！歡迎 " + data.data.real_name);
                             document.cookie = "u_id=" + data.data.u_id + "; path=/; SameSite=Lax"; // 使用 u_id
                             document.cookie = "level=" + data.data.level + "; path=/; SameSite=Lax";
-                            window.opener.location.href = "https://chihliang.infinityfreeapp.com/Car_repair_shop.html";
+                            window.opener.location.href = "http://chihliang.infinityfreeapp.com/Car_repair_shop.html";
                             window.close();
                         } else {
                             alert("登入失敗：" + data.message);

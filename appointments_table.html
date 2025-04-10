@@ -130,8 +130,8 @@
 
     <script src="js/jquery-3.7.1.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="http://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="http://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         let allReservations = []; // 儲存所有預約資料
         let priceChart; // 儲存 Chart.js 實例
@@ -303,9 +303,9 @@
             }
 
             if (level == 1) {
-                url = `https://chihliang.infinityfreeapp.com/appointments_api.php?action=get_all_reservations`;
+                url = `http://chihliang.infinityfreeapp.com/appointments_api.php?action=get_all_reservations`;
             } else if (level == 2) {
-                url = `https://chihliang.infinityfreeapp.com/appointments_api.php?action=get_user_reservations`;
+                url = `http://chihliang.infinityfreeapp.com/appointments_api.php?action=get_user_reservations`;
             } else {
                 Swal.fire('錯誤', '您無權查看此資料！', 'error');
                 return;
