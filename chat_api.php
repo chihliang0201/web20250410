@@ -2,7 +2,7 @@
 ob_start(); // 開始輸出緩衝區
 session_start();
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: https://chihliang.infinityfreeapp.com');
+header('Access-Control-Allow-Origin: https://chihliang0201.github.io.');
 header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Methods: GET, POST, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
@@ -196,11 +196,11 @@ try {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Origin: https://chihliang0201.github.io.');
     header('Access-Control-Allow-Credentials: true');
     header('Access-Control-Allow-Methods: GET, POST, DELETE');
     header('Access-Control-Allow-Headers: Content-Type');
-    https_response_code(200);
+    http_response_code(200);
     exit;
 }
 
