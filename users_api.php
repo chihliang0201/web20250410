@@ -6,10 +6,10 @@ header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
 
-const DB_SERVER    = "localhost";
-const DB_USER_NAME = "owner01";
-const DB_PASSWORD  = "123456";
-const DB_NAME      = "Project";
+const DB_SERVER    = "sql109.infinityfree.com";
+const DB_USER_NAME = "if0_38646769";
+const DB_PASSWORD  = "SQoU7C5kdZo";
+const DB_NAME      = "if0_38646769_chihliang0201";
 
 function create_connection()
 {

@@ -10,10 +10,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-const DB_SERVER   = "localhost";
-const DB_USER_NAME = "owner01";
-const DB_PASSWORD = "123456";
-const DB_NAME     = "Project";
+const DB_SERVER    = "sql109.infinityfree.com";
+const DB_USER_NAME = "if0_38646769";
+const DB_PASSWORD  = "SQoU7C5kdZo";
+const DB_NAME      = "if0_38646769_chihliang0201";
 
 function create_connection()
 {
