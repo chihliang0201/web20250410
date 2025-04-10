@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>預約查詢</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/my.css">
+    <style>
+        .completed td:not(:last-child) {
+            text-decoration: line-through;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            max-width: 1400px;
+            margin: 20px auto;
+            font-size: 20px;
+        }
+
+        body {
+            background-image: url('/images/car.rep.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+
+        .dropdown-item,
+        .dropdown-toggle {
+            font-size: 20px;
+        }
+
+        .faded {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="s07" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">預約查詢</h2>
+            <div class="dropdown mb-4">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    選擇查詢項目
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="#" id="currentReservations">目前預約</a></li>
+                    <li><a class="dropdown-item" href="#" id="completedReservations">完成預約</a></li>
+                </ul>
+            </div>
+            <div id="currentReservationsSection">
+                <h3>目前預約</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>用戶姓名</th>
+                            <th>電話號碼</th>
+                            <th>車輛型號</th>
+                            <th>服務類型</th>
+                            <th>預約時間</th>
+                            <th>維修狀態</th>
+                            <th>估價 (NT$)</th>
+                            <th>實際價格 (NT$)</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="current-reservations-body"></tbody>
+                </table>
+            </div>
+            <div id="completedReservationsSection" class="d-none">
+                <h3>完成預約</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>用戶姓名</th>
+                            <th>電話號碼</th>
+                            <th>車輛型號</th>
+                            <th>服務類型</th>
+                            <th>預約時間</th>
+                            <th>維修狀態</th>
+                            <th>估價 (NT$)</th>
+                            <th>實際價格 (NT$)</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="completed-reservations-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal fade" id="editReservationModal" tabindex="-1" aria-labelledby="editReservationModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editReservationModalLabel">更改預約</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editReservationForm">
+                        <input type="hidden" id="editAppointmentsId">
+                        <div class="mb-3">
+                            <label for="editUserName" class="form-label">用戶姓名</label>
+                            <input type="text" class="form-control" id="editUserName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editUserTel" class="form-label">電話號碼</label>
+                            <input type="text" class="form-control" id="editUserTel" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCarModel" class="form-label">車輛型號</label>
+                            <select class="form-control" id="editCarModel" required>
+                                <option value="">選擇車輛型號</option>
+                                <option value="豐田Toyota">豐田 (Toyota)</option>
+                                <option value="本田Honda">本田 (Honda)</option>
+                                <option value="日產Nissan">日產 (Nissan)</option>
+                                <option value="福特Ford">福特 (Ford)</option>
+                                <option value="雪佛蘭Chevrolet">雪佛蘭 (Chevrolet)</option>
+                                <option value="寶馬BMW">寶馬 (BMW)</option>
+                                <option value="賓士Mercedes-Benz">賓士 (Mercedes-Benz)</option>
+                                <option value="奧迪Audi">奧迪 (Audi)</option>
+                                <option value="大眾Volkswagen">大眾 (Volkswagen)</option>
+                                <option value="現代Hyundai">現代 (Hyundai)</option>
+                                <option value="起亞Kia">起亞 (Kia)</option>
+                                <option value="凌志Lexus">凌志 (Lexus)</option>
+                                <option value="馬自達Mazda">馬自達 (Mazda)</option>
+                                <option value="三菱Mitsubishi">三菱 (Mitsubishi)</option>
+                                <option value="速霸陸Subaru">速霸陸 (Subaru)</option>
+                                <option value="鈴木Suzuki">鈴木 (Suzuki)</option>
+                                <option value="other">其他</option>
+                            </select>
+                            <input type="text" class="form-control mt-2 d-none" id="editOtherCarModel"
+                                placeholder="請輸入車輛型號">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editServiceType" class="form-label">服務類型</label>
+                            <select class="form-control" id="editServiceType" required>
+                                <option value="">選擇服務類型</option>
+                                <option value="更換機油">更換機油</option>
+                                <option value="輪胎旋轉">輪胎旋轉</option>
+                                <option value="煞車檢查">煞車檢查</option>
+                                <option value="電池檢查">電池檢查</option>
+                                <option value="引擎調校">引擎調校</option>
+                                <option value="變速箱服務">變速箱服務</option>
+                                <option value="空調服務">空調服務</option>
+                                <option value="other">其他</option>
+                            </select>
+                            <input type="text" class="form-control mt-2 d-none" id="editOtherServiceType"
+                                placeholder="請輸入服務類型">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editAppointmentDate" class="form-label">預約時間</label>
+                            <input type="datetime-local" class="form-control" id="editAppointmentDate" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">更新預約</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function () {
+            function getCookie(name) {
+                let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+                if (match) return match[2];
+            }
+
+            function loadReservations() {
+                var u_id = getCookie('u_id');
+                if (!u_id) {
+                    Swal.fire('錯誤', '請先登入以查看預約！', 'error').then(() => {
+                        window.location.href = "http://192.168.10.66/car_user_login.html";
+                    });
+                    return;
+                }
+
+                $.ajax({
+                    type: "GET",
+                    url: "http://192.168.10.66/appointments_api.php?action=get_user_reservations",
+                    dataType: "json",
+                    xhrFields: { withCredentials: true },
+                    success: function (response) {
+                        if (response.state && response.data && Array.isArray(response.data.reservations)) {
+                            var currentReservationsHtml = '';
+                            var completedReservationsHtml = '';
+                            response.data.reservations.forEach(function (reservation) {
+                                var completedClass = (reservation.car_status === '已完成') ? 'completed' : '';
+                                var reservationHtml = '<tr class="' + completedClass + '">';
+                                reservationHtml += '<td>' + reservation.user_name + '</td>';
+                                reservationHtml += '<td>' + reservation.user_tel + '</td>';
+                                reservationHtml += '<td>' + reservation.car_model + '</td>';
+                                reservationHtml += '<td>' + reservation.service_type + '</td>';
+                                reservationHtml += '<td>' + reservation.appointment_date + '</td>';
+                                reservationHtml += '<td>' + reservation.car_status + '</td>';
+                                reservationHtml += '<td>' + (reservation.estimated_price || '未填寫') + '</td>';
+                                reservationHtml += '<td>' + (reservation.actual_price || '未填寫') + '</td>';
+                                reservationHtml += '<td>';
+
+                                if (reservation.car_status === '待維修') {
+                                    reservationHtml += '<button class="btn btn-primary edit-btn me-2" ' +
+                                        'data-id="' + reservation.appointments_id + '" ' +
+                                        'data-user-name="' + reservation.user_name + '" ' +
+                                        'data-user-tel="' + reservation.user_tel + '" ' +
+                                        'data-car-model="' + reservation.car_model + '" ' +
+                                        'data-service-type="' + reservation.service_type + '" ' +
+                                        'data-appointment-date="' + reservation.appointment_date + '">更改</button>';
+                                    reservationHtml += '<button class="btn btn-danger delete-btn" ' +
+                                        'data-id="' + reservation.appointments_id + '">刪除</button>';
+                                } else {
+                                    reservationHtml += '<button class="btn btn-primary edit-btn me-2 faded" disabled>更改</button>';
+                                    reservationHtml += '<button class="btn btn-danger delete-btn faded" disabled>刪除</button>';
+                                }
+
+                                reservationHtml += '</td></tr>';
+
+                                if (reservation.car_status === '已完成') {
+                                    completedReservationsHtml += reservationHtml;
+                                } else {
+                                    currentReservationsHtml += reservationHtml;
+                                }
+                            });
+                            $('#current-reservations-body').html(currentReservationsHtml || '<tr><td colspan="9">無資料</td></tr>');
+                            $('#completed-reservations-body').html(completedReservationsHtml || '<tr><td colspan="9">無資料</td></tr>');
+                        } else {
+                            Swal.fire('錯誤', '查詢失敗: ' + response.message, 'error');
+                        }
+                    },
+                    error: function () {
+                        Swal.fire('錯誤', 'API介接錯誤，請稍後再試。', 'error');
+                    }
+                });
+            }
+
+            loadReservations();
+
+            $(document).on('click', '.edit-btn', function () {
+                var appointmentsId = $(this).data('id');
+                var userName = $(this).data('user-name');
+                var userTel = $(this).data('user-tel');
+                var carModel = $(this).data('car-model');
+                var serviceType = $(this).data('service-type');
+                var appointmentDate = $(this).data('appointment-date');
+
+                $('#editAppointmentsId').val(appointmentsId);
+                $('#editUserName').val(userName);
+                $('#editUserTel').val(userTel);
+                $('#editCarModel').val(carModel);
+                $('#editServiceType').val(serviceType);
+                $('#editAppointmentDate').val(appointmentDate.replace(" ", "T").substring(0, 16));
+
+                if (!['豐田Toyota', '本田Honda', '日產Nissan', '福特Ford', '雪佛蘭Chevrolet', '寶馬BMW', '賓士Mercedes-Benz', '奧迪Audi', '大眾Volkswagen', '現代Hyundai', '起亞Kia', '凌志Lexus', '馬自達Mazda', '三菱Mitsubishi', '速霸陸Subaru', '鈴木Suzuki'].includes(carModel)) {
+                    $('#editCarModel').val('other');
+                    $('#editOtherCarModel').removeClass('d-none').val(carModel).attr('required', true);
+                } else {
+                    $('#editOtherCarModel').addClass('d-none').attr('required', false);
+                }
+
+                if (!['更換機油', '輪胎旋轉', '煞車檢查', '電池檢查', '引擎調校', '變速箱服務', '空調服務'].includes(serviceType)) {
+                    $('#editServiceType').val('other');
+                    $('#editOtherServiceType').removeClass('d-none').val(serviceType).attr('required', true);
+                } else {
+                    $('#editOtherServiceType').addClass('d-none').attr('required', false);
+                }
+
+                $('#editReservationModal').modal('show');
+            });
+
+            $(document).on('click', '.delete-btn', function () {
+                var appointmentsId = $(this).data('id');
+                Swal.fire({
+                    title: '確定要刪除此預約嗎？',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: '確定',
+                    cancelButtonText: '取消'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: "http://192.168.10.66/appointments_api.php?action=delete_reservation",
+                            data: JSON.stringify({ appointments_id: appointmentsId }),
+                            contentType: "application/json",
+                            dataType: "json",
+                            xhrFields: { withCredentials: true },
+                            success: function (response) {
+                                if (response.state) {
+                                    Swal.fire('成功', '預約刪除成功', 'success');
+                                    loadReservations();
+                                } else {
+                                    Swal.fire('錯誤', '刪除失敗: ' + response.message, 'error');
+                                }
+                            },
+                            error: function () {
+                                Swal.fire('錯誤', 'API介接錯誤，請稍後再試。', 'error');
+                            }
+                        });
+                    }
+                });
+            });
+
+            $('#editCarModel').change(function () {
+                if ($(this).val() === "other") {
+                    $('#editOtherCarModel').removeClass('d-none').attr('required', true);
+                } else {
+                    $('#editOtherCarModel').addClass('d-none').attr('required', false);
+                }
+            });
+
+            $('#editServiceType').change(function () {
+                if ($(this).val() === "other") {
+                    $('#editOtherServiceType').removeClass('d-none').attr('required', true);
+                } else {
+                    $('#editOtherServiceType').addClass('d-none').attr('required', false);
+                }
+            });
+
+            $('#editReservationForm').submit(function (event) {
+                event.preventDefault();
+                var appointmentsId = $('#editAppointmentsId').val();
+                var userName = $('#editUserName').val();
+                var userTel = $('#editUserTel').val();
+                var carModel = $('#editCarModel').val() === "other" ? $('#editOtherCarModel').val() : $('#editCarModel').val();
+                var serviceType = $('#editServiceType').val() === "other" ? $('#editOtherServiceType').val() : $('#editServiceType').val();
+                var appointmentDate = $('#editAppointmentDate').val().replace("T", " ") + ":00";
+
+                var formData = {
+                    appointments_id: appointmentsId,
+                    user_name: userName,
+                    user_tel: userTel,
+                    car_model: carModel,
+                    service_type: serviceType,
+                    appointment_date: appointmentDate,
+                    car_status: '待維修'
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "http://192.168.10.66/appointments_api.php?action=update_reservation",
+                    data: JSON.stringify(formData),
+                    contentType: "application/json",
+                    dataType: "json",
+                    xhrFields: { withCredentials: true },
+                    success: function (response) {
+                        if (response.state) {
+                            Swal.fire('成功', '預約更新成功', 'success');
+                            $('#editReservationModal').modal('hide');
+                            loadReservations();
+                        } else {
+                            Swal.fire('錯誤', '更新失敗: ' + response.message, 'error');
+                        }
+                    },
+                    error: function () {
+                        Swal.fire('錯誤', 'API介接錯誤，請稍後再試。', 'error');
+                    }
+                });
+            });
+
+            $('#currentReservations').click(function () {
+                $('#currentReservationsSection').removeClass('d-none');
+                $('#completedReservationsSection').addClass('d-none');
+            });
+
+            $('#completedReservations').click(function () {
+                $('#currentReservationsSection').addClass('d-none');
+                $('#completedReservationsSection').removeClass('d-none');
+            });
+        });
+    </script>
+</body>
+
+</html>

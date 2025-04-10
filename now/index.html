@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大德汽車修配廠官網首頁</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/my.css">
+    <style>
+        .background-image {
+            position: relative;
+            text-align: center;
+            background: url('/images/car-reg1.jpeg') no-repeat center center;
+            background-size: cover;
+            height: 100vh;
+            width: 100%;
+            opacity: 1;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: auto;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .photo-grid img {
+            width: 100%;
+            height: auto;
+            opacity: 0.9;
+        }
+
+        .centered-button {
+            grid-column: 1 / 3;
+            grid-row: 2;
+            justify-self: center;
+            align-self: center;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            background-color: rgba(0, 123, 255, 0.9);
+            border: none;
+            color: white;
+            border-radius: 5px;
+            z-index: 2;
+        }
+
+        .centered-button:hover {
+            background-color: rgba(0, 123, 255, 1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-image">
+        <div class="overlay"></div>
+        <div class="photo-grid">
+            <img src="/images/car-reg1.jpeg" alt="照片1">
+            <img src="/images/car-reg2.jpeg" alt="照片2">
+            <button onclick="location.href='http://192.168.10.66/Car_repair_shop.html'"
+                class="btn centered-button">歡迎光臨</button>
+        </div>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery-3.7.1.min.js"></script>
+</body>
+
+</html>

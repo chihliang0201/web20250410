@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device=1.0">
+    <title>會員登入</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/my.css">
+    <style>
+        body {
+            background-image: url('/images/car.rep.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h2 class="text-center">會員登入</h2>
+        <form id="loginForm">
+            <div class="mb-3">
+                <label for="user_name_login" class="form-label">帳號</label>
+                <input type="text" class="form-control" id="user_name_login" required>
+            </div>
+            <div class="mb-3">
+                <label for="password_login" class="form-label">密碼</label>
+                <input type="password" class="form-control" id="password_login" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">登入</button>
+        </form>
+    </div>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#loginForm").submit(function (event) {
+                event.preventDefault();
+                let userData = {
+                    user_name: $("#user_name_login").val(),
+                    password: $("#password_login").val()
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "http://192.168.10.66/users_api.php?action=login",
+                    data: JSON.stringify(userData),
+                    contentType: "application/json",
+                    success: function (data) {
+                        console.log(data);
+                        if (data.state) {
+                            alert("登入成功！歡迎 " + data.data.real_name);
+                            document.cookie = "u_id=" + data.data.u_id + "; path=/; SameSite=Lax"; // 使用 u_id
+                            document.cookie = "level=" + data.data.level + "; path=/; SameSite=Lax";
+                            window.opener.location.href = "http://192.168.10.66/Car_repair_shop.html";
+                            window.close();
+                        } else {
+                            alert("登入失敗：" + data.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("登入請求失敗，請稍後再試。錯誤詳情：" + error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device=1.0" />
+  <title>汽車維修官網(專題題目)</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/css/my.css" />
+  <link rel="stylesheet" href="/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+  <style>
+    .s12.text {
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 15px;
+    }
+
+    @media screen and (max-width: 768px) {
+
+      .s05-text,
+      .s08-text {
+        z-index: 10;
+        background-color: rgba(0, 0, 0, 0.2);
+        color: var(--textcolor05);
+        margin: 15px;
+        box-shadow: 2px 2px 4px 2px #faf9f9;
+        border-radius: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- section 01: 社交媒體 -->
+  <section id="s01" class="bg-001 py-1">
+    <div class="container">
+      <div class="text-end">
+        <a href="#"><i class="fa-brands fa-square-facebook text-primary" style="font-size: 30px"></i></a>
+        <a href="#"><i class="fa-brands fa-line text-success" style="font-size: 30px"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- section 02: 導覽列 -->
+  <section id="s02" class="bg-dark">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+          <a class="navbar-brand d-flex align-items-center me-3" href="#">
+            <img src="/images/logo_transparent.png" alt="Logo" style="width: 50px; height: 50px; margin-right: 15px" />
+            <span class="text-warning fs-4">汽車維修官網</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item"><a class="nav-link" href="#">首頁</a></li>
+              <li class="nav-item">
+                <a class="nav-link d-none" href="#" id="s02_appointment_btn" onclick="openReserveWindow()">預約維修</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-none" href="#" id="s02_Car_user_reservations_btn"
+                  onclick="openCar_user_ReservationsWindow()">預約查詢</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="s02_chat_btn" onclick="openChatWindow()">線上諮詢</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-none" href="#" id="s02_admin_dashboard_btn"
+                  onclick="openAdminDashboardWindow()">後台管理</a>
+              </li>
+              <!-- 新增「預約資料表格」選項 -->
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="s02_appointments_table_btn"
+                  onclick="openAppointmentsTableWindow()">預約資料表格</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false">服務項目</a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">保險代辦</a></li>
+                  <li><a class="dropdown-item" href="#">定期保養</a></li>
+                  <li><a class="dropdown-item" href="#">引擎維修</a></li>
+                  <li><a class="dropdown-item" href="#">線路維修</a></li>
+                  <li>
+                    <a class="dropdown-item" href="#">汽車問題相關知識</a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li><a class="dropdown-item" href="#s08">聯絡我們</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div>
+              <span class="h4 text-success fw-900 me-3 d-none" id="s02_user_name_showtext">您好:
+                <span class="h3 text-danger" id="s02_user_name_text">XXX</span></span>
+              <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#registerModal" id="s02_reg_btn">
+                註冊
+              </button>
+              <button class="btn btn-success" id="s02_login_btn" onclick="openLoginWindow()">
+                登入
+              </button>
+              <button class="btn btn-danger d-none" id="s02_logout_btn">
+                登出
+              </button>
+              <button class="btn btn-info d-none" id="s02_edit_profile_btn" data-bs-toggle="modal"
+                data-bs-target="#editProfileModal">
+                修改會員資料
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </section>
+
+  <!-- registerModal -->
+  <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel01" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header text-bg-warning">
+          <h1 class="modal-title fs-4 fw-900" id="exampleModalLabel01">
+            會員註冊
+          </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-6">
+              <div class="d-flex flex-column h-100">
+                <div class="display-6 fw-900 my-3">加入須知</div>
+                <p>1. 請確保您提供的所有信息真實、準確且完整。</p>
+                <p>2. 帳號需為3-10個字元，且不得包含特殊符號。</p>
+                <p>
+                  3.
+                  密碼需為3-7個字元，並建議包含大小寫字母及數字以提高安全性。
+                </p>
+                <p>4. 請妥善保管您的帳號和密碼，避免洩露給他人。</p>
+                <p>5. 若有任何疑問或需要幫助，請聯繫我們的客服團隊。</p>
+                <div class="form-check form-switch mt-auto">
+                  <input type="checkbox" class="form-check-input is-invalid" role="switch" id="chk01" name="chk01" />
+                  <label for="chk01" class="form-check-label">不同意</label>
+                  <div class="valid-feedback">請完成填寫資料</div>
+                  <div class="invalid-feedback">須同意才可註冊</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="user_name_reg" class="form-label">帳號</label>
+                <input type="text" class="form-control is-invalid" id="user_name_reg" name="user_name_reg"
+                  placeholder="3-10字數" />
+                <div class="valid-feedback">符合規則</div>
+                <div class="invalid-feedback">不符合規則</div>
+              </div>
+              <div class="mb-3">
+                <label for="real_name_reg" class="form-label">用戶姓名</label>
+                <input type="text" class="form-control is-invalid" id="real_name_reg" name="real_name_reg"
+                  placeholder="請輸入真實姓名" />
+                <div class="valid-feedback">符合規則</div>
+                <div class="invalid-feedback">請輸入真實姓名</div>
+              </div>
+              <div class="mb-3">
+                <label for="password_reg" class="form-label">密碼</label>
+                <input type="password" class="form-control is-invalid" id="password_reg" name="password" />
+                <div class="valid-feedback">符合規則</div>
+                <div class="invalid-feedback">不符合規則</div>
+              </div>
+              <div class="mb-3">
+                <label for="re_password_reg" class="form-label">確認密碼</label>
+                <input type="password" class="form-control is-invalid" id="re_password_reg" name="re_password" />
+                <div class="valid-feedback">符合規則</div>
+                <div class="invalid-feedback">不符合規則</div>
+              </div>
+              <div class="mb-3">
+                <label for="user_tel_reg" class="form-label">電話號碼</label>
+                <input type="text" class="form-control is-invalid" id="user_tel_reg" name="user_tel_reg"
+                  placeholder="8-20字數" />
+                <div class="valid-feedback">符合規則</div>
+                <div class="invalid-feedback">不符合規則</div>
+              </div>
+              <div class="mb-3">
+                <label for="email_reg" class="form-label">E-mail</label>
+                <input type="email" class="form-control is-invalid" id="email_reg" name="email" placeholder="3-30字數" />
+                <div class="valid-feedback">符合規則</div>
+                <div class="invalid-feedback">不符合規則</div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              取消
+            </button>
+            <button type="button" class="btn btn-primary" id="ok_btn_reg">
+              確認
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- editProfileModal -->
+  <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header text-bg-info">
+          <h1 class="modal-title fs-4 fw-900" id="editProfileModalLabel">
+            修改會員資料
+          </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editProfileForm">
+            <div class="row">
+              <div class="col-6">
+                <div class="mb-3">
+                  <label for="edit_real_name" class="form-label">用戶姓名</label>
+                  <input type="text" class="form-control" id="edit_real_name" name="real_name" placeholder="請輸入真實姓名"
+                    required />
+                </div>
+                <div class="mb-3">
+                  <label for="edit_user_tel" class="form-label">電話號碼</label>
+                  <input type="text" class="form-control" id="edit_user_tel" name="user_tel" placeholder="8-20字數"
+                    required />
+                </div>
+                <div class="mb-3">
+                  <label for="edit_email" class="form-label">E-mail</label>
+                  <input type="email" class="form-control" id="edit_email" name="email" placeholder="3-30字數" required />
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="mb-3">
+                  <label for="edit_password" class="form-label">新密碼 (留空則不更改)</label>
+                  <input type="password" class="form-control" id="edit_password" name="password" placeholder="3-7字元" />
+                </div>
+                <div class="mb-3">
+                  <label for="edit_re_password" class="form-label">確認新密碼</label>
+                  <input type="password" class="form-control" id="edit_re_password" name="re_password"
+                    placeholder="請再次輸入新密碼" />
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                取消
+              </button>
+              <button type="submit" class="btn btn-primary" id="save_profile_btn">
+                儲存修改
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- section 03: 播放圖片 -->
+  <section id="s03">
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+          aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+          aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+          aria-label="Slide 3"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active" style="
+              height: 85vh;
+              background-image: url(/images/c1.jpg);
+              background-size: cover;
+              background-position: center;
+            ">
+          <div class="carousel-caption d-none d-md-block p-3 rounded-4 shadow-lg"
+            style="background-color: rgba(0, 0, 0, 0.5)">
+            <h3 class="fw-bold">專業汽車保養服務</h3>
+            <p class="fs-5 text-info">
+              定期保養是確保汽車性能和安全的關鍵。我們提供全面的保養服務，確保您的車輛處於最佳狀態，延長其使用壽命，降低突發故障狀況與風險。
+            </p>
+          </div>
+        </div>
+        <div class="carousel-item" style="
+              height: 85vh;
+              background-image: url(/images/c2.jpg);
+              background-size: cover;
+              background-position: center;
+            ">
+          <div class="carousel-caption d-none d-md-block p-3 rounded-4 shadow-lg"
+            style="background-color: rgba(0, 0, 0, 0.5)">
+            <h3 class="fw-bold">快速解決車輛故障</h3>
+            <p class="fs-5 text-info">
+              無論您的車輛遇到什麼問題，我們的專業團隊都能迅速診斷並修復，讓您安心駕駛上路。
+            </p>
+          </div>
+        </div>
+        <div class="carousel-item" style="
+              height: 85vh;
+              background-image: url(/images/c3.jpg);
+              background-size: cover;
+              background-position: center;
+            ">
+          <div class="carousel-caption d-none d-md-block p-3 rounded-4 shadow-lg"
+            style="background-color: rgba(0, 0, 0, 0.5)">
+            <h3 class="fw-bold">全方位汽車維修服務</h3>
+            <p class="fs-5 text-info">
+              無論是引擎問題、剎車維修，還是傳動系統檢查，汽車維修專業團隊提供全方位的服務，保證讓您的車輛重返最佳狀態，讓您駕駛無憂。
+            </p>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+        data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+        data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- section 06: 關於我們 -->
+  <section id="s06" class="bg-dark text-light py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">關於汽車維修</h2>
+      <p class="text-center">
+        我們是一家專業的汽車維修公司，擁有多年經驗的維修團隊，提供高效、專業的汽車維修服務。我們致力於確保每一位客戶的車輛都能保持在最佳狀態，並提供細心周到的售後服務。
+      </p>
+    </div>
+  </section>
+
+  <!-- section 05: 客戶心得 -->
+  <section id="s05" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">客戶心得</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <blockquote class="blockquote text-center border p-4">
+            <p class="mb-0">
+              「汽車維修的服務真是無可挑剔！每次來都能感受到他們專業的態度與服務。」
+            </p>
+            <br />
+            <footer class="blockquote-footer">某先生 / 小姐</footer>
+          </blockquote>
+        </div>
+        <div class="col-md-6">
+          <blockquote class="blockquote text-center border p-4">
+            <p class="mb-0">
+              「從保養到維修，一直都找大德，他們的團隊非常值得信賴！」
+            </p>
+            <br />
+            <footer class="blockquote-footer">某先生 / 小姐</footer>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- section 08: 聯絡我們 -->
+  <section id="s08" class="bg-light py-5">
+    <div class="container">
+      <div class="row">
+        <!-- 左邊地圖 -->
+        <div class="col-md-6 mb-4 mb-md-0">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.9256785619273!2d120.54776857633368!3d24.139248073735324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34693f72c72a7d93%3A0x8f28567dd7f74b1e!2z5aSn5b635rG96LuK5L-u6YWN5bug!5e0!3m2!1szh-TW!2stw!4v1735871474542!5m2!1szh-TW!2stw"
+            width="100%" height="450" style="border: 0" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        <!-- 右邊聯絡方式 -->
+        <div class="col-md-6">
+          <h2 class="text-center mb-4">聯絡我們</h2>
+          <p class="text-center mb-4">
+            如有任何疑問或需求，請隨時與我們聯絡。您可以通過以下方式聯絡我們：
+          </p>
+          <ul class="list-unstyled">
+            <li class="mb-2 text-center">電話：04-2699XXXX</li>
+            <li class="mb-2 text-center">
+              電子郵件：<a href="/cdn-cgi/l/email-protection" class="__cf_email__"
+                data-cfemail="c9faecfbffe0eaecc9ede8a4edeca7eae6e4">[email&#160;protected]</a>
+            </li>
+            <li class="text-center">地址：台中市大肚區某某街道123號</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- section 09: 其他服務 -->
+  <section id="s09" class="bg-dark text-light py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">其他服務</h2>
+      <p class="text-center mb-5"></p>
+      <div class="row">
+        <div class="col-md-4 text-center border p-5">
+          <h4 class="mb-3">車輛美容</h4>
+          <p>
+            我們提供專業的車輛美容服務，包括車身清潔、拋光、鍍膜等，讓您的車輛外觀更加光鮮亮麗。
+          </p>
+        </div>
+        <div class="col-md-4 text-center border p-5">
+          <h4 class="mb-3">輪胎更換與保養</h4>
+          <p>
+            提供輪胎檢查、保養與更換服務，確保您的行車安全，讓您在路上無後顧之憂。
+          </p>
+        </div>
+        <div class="col-md-4 text-center border p-5">
+          <h4 class="mb-3">車輛檢查服務</h4>
+          <p>
+            我們提供全面的車輛檢查服務，包括引擎、制動系統、懸掛系統等，確保車輛處於最佳狀態。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- section 10: 最新消息 -->
+  <section id="s10" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">最新消息</h2>
+      <p class="text-center mb-5"></p>
+      <div class="row">
+        <div class="col-md-6 text-center border p-5">
+          <h4 class="mb-3">2025年新春優惠活動</h4>
+          <p>
+            即將推出新春優惠，於指定時間內進行車輛保養可享有折扣，敬請期待！
+          </p>
+        </div>
+        <div class="col-md-6 text-center border p-5">
+          <h4 class="mb-3">推出全新車輛美容套餐</h4>
+          <p>
+            為回饋新老客戶，我們將推出全新的車輛美容服務套餐，讓您的愛車煥然一新。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- section 11: 促銷活動 -->
+  <section id="s11" class="bg-light py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">促銷活動</h2>
+      <p class="text-center mb-5"></p>
+      <div class="row">
+        <div class="col-md-6 text-center border p-5">
+          <h4 class="mb-3">季節性大折扣</h4>
+          <p>
+            我們將推出特別的折扣活動，為您的車輛提供更實惠的保養與維修服務。
+          </p>
+        </div>
+        <div class="col-md-6 text-center border p-5">
+          <h4 class="mb-3">推薦朋友優惠</h4>
+          <p>
+            邀請朋友來我們進行車輛保養，您和您的朋友都可以享有額外的折扣和服務。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- section 12: 設施介紹 -->
+  <section id="s12" class="bg-dark text-light py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">設施介紹</h2>
+      <p class="text-center mb-5"></p>
+      <div class="row">
+        <div class="col-md-6 text-center border p-5">
+          <h4 class="mb-3">高端診斷設備</h4>
+          <p>
+            我們使用先進的汽車診斷設備，能快速準確地檢測車輛問題，提供最專業的維修方案。
+          </p>
+        </div>
+        <div class="col-md-6 text-center border p-5">
+          <h4 class="mb-3">專業維修工作台</h4>
+          <p>
+            每個維修工作台都配備最新工具，保證我們能提供最精細和高效的維修服務。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- section 13: 合作夥伴 -->
+  <section id="s13" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">合作夥伴</h2>
+      <p class="text-center mb-5"></p>
+      <div class="row">
+        <div class="col-md-4 mb-4 text-center">
+          <img src="/images/Q1.jpg" alt="Partner 1" class="img-fluid wow animate__bounceInLeft" data-wow-duration="1s"
+            data-wow-delay="0s" data-wow-iteration="1" style="max-height: 150px; max-width: 150px" />
+          <p>合作夥伴1</p>
+        </div>
+        <div class="col-md-4 mb-4 text-center">
+          <img src="/images/Q3.jpg" alt="Partner 2" class="img-fluid wow animate__bounceInDown" data-wow-duration="1s"
+            data-wow-delay="0s" data-wow-iteration="1" style="max-height: 150px; max-width: 150px" />
+          <p>合作夥伴2</p>
+        </div>
+        <div class="col-md-4 text-center">
+          <img src="/images/Q2.jpg" alt="Partner 3" class="img-fluid wow animate__bounceInRight" data-wow-duration="1s"
+            data-wow-delay="0s" data-wow-iteration="1" style="max-height: 150px; max-width: 150px" />
+          <p>合作夥伴3</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- section 14: 客戶支持 -->
+  <section id="s14" class="bg-light py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">客戶支持</h2>
+      <p class="text-center mb-5">
+        若您有任何問題或需求，請隨時與我們聯繫，我們將竭誠為您服務。
+      </p>
+      <ul class="list-unstyled text-center">
+        <li>電話：04-2699XXXX</li>
+        <li>
+          電子郵件：<a href="/cdn-cgi/l/email-protection" class="__cf_email__"
+            data-cfemail="41323431312e33350125206c25246f222e2c">[email&#160;protected]</a>
+        </li>
+        <!-- <li>
+          <a href="#" onclick="openChatWindow()" class="btn btn-primary mt-3">線上諮詢：立即開始對話</a>
+        </li> -->
+      </ul>
+    </div>
+  </section>
+
+  <!-- section 15: 常見問題 -->
+  <section id="s15" class="bg-dark text-light py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">常見問題</h2>
+      <p class="text-center mb-5">
+        在這裡我們解答了客戶常見的問題，幫助您更了解我們的服務。
+      </p>
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <h5 class="mb-3">1. 如何預約維修？</h5>
+          <p>
+            您可以通過我們的網站或電話預約維修服務，並選擇方便的時間和日期。
+          </p>
+        </div>
+        <div class="col-md-6 mb-4">
+          <h5 class="mb-3">2. 維修服務有保固嗎？</h5>
+          <p>
+            我們提供一定期限的維修保固服務，保證維修質量，讓您無後顧之憂。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- section 16 友站和版權-->
+  <section id="s11" class="bg-001 py-1">
+    <div class="container">
+      <ul class="nav justify-content-center">
+        <li class="nav-item">
+          <a class="nav-link disabled">PowerBy 雲端技術班2024.12</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">拼拼湊湊版面</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">XXX</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">XXX</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/jquery-3.7.1.min.js"></script>
+  <script src="https://unpkg.com/counterup2@2.0.2/dist/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/js/wow.min.js"></script>
+
+  <script>
+    // 定義表單驗證旗標
+    var flag_user_name_reg = false;
+    var flag_real_name_reg = false;
+    var flag_email_reg = false;
+    var flag_re_password_reg = false;
+    var flag_user_tel_reg = false;
+    var flag_chk01_reg = false;
+
+    var flag_real_name_edit = false;
+    var flag_user_tel_edit = false;
+    var flag_email_edit = false;
+    var flag_password_edit = true; // 密碼可選填，預設為 true
+
+    // Cookie 操作函數
+    function getCookie(name) {
+      var value = "; " + document.cookie;
+      var parts = value.split("; " + name + "=");
+      if (parts.length == 2) return parts.pop().split(";").shift();
+    }
+
+    function setCookie(name, value, days) {
+      var expires = "";
+      if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    // 設置登入狀態
+    function setLoginStatus(realName, u_id, level) {
+      $("#s02_user_name_text").text(realName); // 設定會員名稱
+      $("#s02_user_name_showtext").removeClass("d-none"); // 顯示會員名稱
+      $("#s02_logout_btn").removeClass("d-none"); // 顯示登出按鈕
+      $("#s02_reg_btn").addClass("d-none"); // 隱藏註冊按鈕
+      $("#s02_login_btn").addClass("d-none"); // 隱藏登入按鈕
+      // $("#s02_chat_btn").addClass("d-none");                           // 隱藏線上諮詢按鈕
+
+      if (level == 1) {
+        $("#s02_admin_dashboard_btn").removeClass("d-none"); // 顯示管理員專區按鈕
+        $("#s02_appointment_btn").addClass("d-none"); // 隱藏預約維修按鈕
+        $("#s02_Car_user_reservations_btn").addClass("d-none"); // 隱藏會員預約按鈕
+        $("#s02_edit_profile_btn").addClass("d-none"); // 隱藏修改會員資料按鈕
+        $("#s02_chat_btn").addClass("d-none"); // 管理員隱藏線上諮詢按鈕
+        $("#s02_appointments_table_btn").removeClass("d-none"); // 管理員顯示預約資料表格按鈕
+      } else if (level == 2) {
+        $("#s02_admin_dashboard_btn").addClass("d-none"); // 隱藏管理員專區按鈕
+        $("#s02_appointment_btn").removeClass("d-none"); // 顯示預約維修按鈕
+        $("#s02_Car_user_reservations_btn").removeClass("d-none"); // 顯示會員預約按鈕
+        $("#s02_edit_profile_btn").removeClass("d-none"); // 顯示修改會員資料按鈕
+        $("#s02_chat_btn").removeClass("d-none"); // 一般會員顯示線上諮詢按鈕
+        $("#s02_appointments_table_btn").addClass("d-none"); // 一般會員顯示預約資料表格按鈕
+      }
+    }
+
+    // 開啟相關視窗的函數
+    function openLoginWindow() {
+      window.open(
+        "http://192.168.10.66/car_user_login.html",
+        "LoginWindow",
+        "width=600,height=600,resizable=yes,scrollbars=yes"
+      );
+    }
+
+    function openReserveWindow() {
+      window.open(
+        "http://192.168.10.66/Car_reserve.html",
+        "ReserveWindow",
+        "width=800,height=800,resizable=yes,scrollbars=yes"
+      );
+    }
+
+    function openCar_user_ReservationsWindow() {
+      window.open(
+        "http://192.168.10.66/Car_user_reservations.html",
+        "ManageReservationsWindow",
+        "width=1200,height=1000,resizable=yes,scrollbars=yes"
+      );
+    }
+
+    function openAdminDashboardWindow() {
+      window.open(
+        "http://192.168.10.66/Car_admin_dashboard.html",
+        "AdminDashboardWindow",
+        "width=1400,height=1000,resizable=yes,scrollbars=yes"
+      );
+    }
+
+    function openChatWindow() {
+      window.open(
+        "http://192.168.10.66/chat.html",
+        "ChatWindow",
+        "width=800,height=1000,resizable=yes,scrollbars=yes"
+      );
+    }
+
+    // 新增開啟預約資料表格視窗的函數
+    function openAppointmentsTableWindow() {
+      window.open(
+        "http://192.168.10.66/appointments_table.html",
+        "AppointmentsTableWindow",
+        "width=1600,height=1200,resizable=yes,scrollbars=yes"
+      );
+    }
+
+    // 載入會員資料到修改表單
+    function loadUserProfile() {
+      var u_id = getCookie("u_id");
+      if (u_id) {
+        $.ajax({
+          type: "POST",
+          url: "http://192.168.10.66/users_api.php?action=checkuid",
+          data: JSON.stringify({ u_id: u_id }),
+          contentType: "application/json",
+          dataType: "json",
+          xhrFields: { withCredentials: true },
+          success: function (data) {
+            if (data.state) {
+              $("#edit_real_name").val(data.data.real_name).trigger("input");
+              $("#edit_user_tel").val(data.data.user_tel).trigger("input");
+              $("#edit_email").val(data.data.email).trigger("input");
+              $("#edit_password").val("");
+              $("#edit_re_password").val("");
+            } else {
+              Swal.fire({
+                title: "無法載入會員資料: " + data.message,
+                icon: "error",
+              });
+            }
+          },
+          error: function () {
+            Swal.fire({ title: "API介接錯誤", icon: "error" });
+          },
+        });
+      }
+    }
+
+    // 頁面載入時檢查登入狀態
+    $(function () {
+      var u_id = getCookie("u_id");
+      if (u_id && u_id !== "") {
+        $.ajax({
+          type: "POST",
+          url: "http://192.168.10.66/users_api.php?action=checkuid",
+          data: JSON.stringify({ u_id: u_id }),
+          contentType: "application/json",
+          dataType: "json",
+          xhrFields: { withCredentials: true },
+          success: function (data) {
+            console.log(data);
+            if (data.state) {
+              setLoginStatus(
+                data.data.real_name,
+                data.data.u_id,
+                data.data.level
+              );
+            } else {
+              Swal.fire({
+                title: "用戶驗證失敗: " + data.message,
+                icon: "warning",
+              });
+              $("#s02_chat_btn").addClass("d-none"); // 驗證失敗時隱藏線上諮詢
+              $("#s02_appointments_table_btn").addClass("d-none"); // 驗證失敗時隱藏預約資料表格按鈕
+            }
+          },
+          error: function () {
+            Swal.fire({ title: "API介接錯誤", icon: "error" });
+            $("#s02_chat_btn").addClass("d-none"); // API 錯誤時隱藏線上諮詢
+            $("#s02_appointments_table_btn").addClass("d-none"); // API 錯誤時隱藏預約資料表格按鈕
+          },
+        });
+      } else {
+        $("#s02_chat_btn").addClass("d-none"); // 未登入時隱藏線上諮詢
+        $("#s02_appointments_table_btn").addClass("d-none"); // 未登入時隱藏預約資料表格按鈕
+      }
+    });
+
+    $(document).ready(function () {
+      // 註冊表單驗證
+      $("#user_name_reg").on("input", function () {
+        var value = $(this).val().trim();
+        if (value.length > 2 && value.length < 11) {
+          $.ajax({
+            type: "POST",
+            url: "http://192.168.10.66/users_api.php?action=check_username",
+            data: JSON.stringify({ user_name: value }),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+              if (response.state) {
+                $("#user_name_reg")
+                  .removeClass("is-invalid")
+                  .addClass("is-valid");
+                $("#user_name_reg")
+                  .next(".invalid-feedback")
+                  .text("帳號可用");
+                flag_user_name_reg = true;
+              } else {
+                $("#user_name_reg")
+                  .removeClass("is-valid")
+                  .addClass("is-invalid");
+                $("#user_name_reg")
+                  .next(".invalid-feedback")
+                  .text(response.message || "此帳號已存在");
+                flag_user_name_reg = false;
+              }
+            },
+            error: function () {
+              $("#user_name_reg")
+                .removeClass("is-valid")
+                .addClass("is-invalid");
+              $("#user_name_reg")
+                .next(".invalid-feedback")
+                .text("檢查失敗，請稍後再試");
+              flag_user_name_reg = false;
+            },
+          });
+        } else {
+          $(this).removeClass("is-valid").addClass("is-invalid");
+          $("#user_name_reg")
+            .next(".invalid-feedback")
+            .text("帳號需為3-10個字元");
+          flag_user_name_reg = false;
+        }
+      });
+
+      $("#real_name_reg").on("input", function () {
+        if ($(this).val().length > 1 && $(this).val().length < 51) {
+          $(this).removeClass("is-invalid").addClass("is-valid");
+          flag_real_name_reg = true;
+        } else {
+          $(this).removeClass("is-valid").addClass("is-invalid");
+          flag_real_name_reg = false;
+        }
+      });
+
+      $("#password_reg").on("input", function () {
+        if ($(this).val().length > 2 && $(this).val().length < 8) {
+          $(this).removeClass("is-invalid").addClass("is-valid");
+        } else {
+          $(this).removeClass("is-valid").addClass("is-invalid");
+        }
+      });
+
+      $("#re_password_reg").on("input", function () {
+        if ($(this).val() === $("#password_reg").val()) {
+          $(this).removeClass("is-invalid").addClass("is-valid");
+          flag_re_password_reg = true;
+        } else {
+          $(this).removeClass("is-valid").addClass("is-invalid");
+          flag_re_password_reg = false;
+        }
+      });
+
+      $("#user_tel_reg").on("input", function () {
+        if (/^[0-9]{8,20}$/.test($(this).val())) {
+          $(this).removeClass("is-invalid").addClass("is-valid");
+          flag_user_tel_reg = true;
+        } else {
+          $(this).removeClass("is-valid").addClass("is-invalid");
+          flag_user_tel_reg = false;
+        }
+      });
+
+      $("#email_reg").on("input", function () {
+        var email = $(this).val().trim();
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailRegex.test(email)) {
+          $(this).removeClass("is-invalid").addClass("is-valid");
+          flag_email_reg = true;
+        } else {
+          $(this).removeClass("is-valid").addClass("is-invalid");
+          flag_email_reg = false;
+        }
+      });
+
+      $("#chk01").change(function () {
+        if ($(this).is(":checked")) {
+          $(this).removeClass("is-invalid").addClass("is-valid");
+          flag_chk01_reg = true;
+        } else {
+          $(this).removeClass("is-valid").addClass("is-invalid");
+          flag_chk01_reg = false;
+        }
+      });
+
+      $("#ok_btn_reg").click(function () {
+        var user_name = $("#user_name_reg").val().trim();
+        if (user_name.length > 2 && user_name.length < 11) {
+          $.ajax({
+            type: "POST",
+            url: "http://192.168.10.66/users_api.php?action=check_username",
+            data: JSON.stringify({ user_name: user_name }),
+            contentType: "application/json",
+            dataType: "json",
+            async: false,
+            success: function (response) {
+              if (!response.state) {
+                flag_user_name_reg = false;
+              }
+            },
+            error: function () {
+              flag_user_name_reg = false;
+            },
+          });
+        }
+
+        if (!flag_user_name_reg) {
+          Swal.fire({ icon: "error", title: "此帳號已存在，請使用其他帳號" });
+          return;
+        }
+
+        if (
+          flag_user_name_reg &&
+          flag_real_name_reg &&
+          flag_email_reg &&
+          flag_re_password_reg &&
+          flag_user_tel_reg &&
+          flag_chk01_reg
+        ) {
+          var JSONdata = {
+            user_name: $("#user_name_reg").val(),
+            real_name: $("#real_name_reg").val(),
+            password: $("#password_reg").val(),
+            email: $("#email_reg").val(),
+            user_tel: $("#user_tel_reg").val(),
+            level: 2,
+          };
+          $.ajax({
+            type: "POST",
+            url: "http://192.168.10.66/users_api.php?action=register",
+            data: JSON.stringify(JSONdata),
+            contentType: "application/json",
+            success: function (data) {
+              if (data.state) {
+                document.cookie =
+                  "u_id=" + data.data.u_id + "; path=/; SameSite=Lax";
+                document.cookie = "level=2; path=/; SameSite=Lax";
+                Swal.fire({
+                  title: "註冊成功！請稍後進入首頁",
+                  icon: "success",
+                }).then(() => {
+                  location.href = "http://192.168.10.66/Car_repair_shop.html";
+                });
+              } else {
+                Swal.fire({ title: data.message, icon: "error" });
+              }
+            },
+            error: function () {
+              Swal.fire({ icon: "error", title: "API介接錯誤" });
+            },
+          });
+        } else {
+          Swal.fire({
+            icon: "warning",
+            title: "請檢查表單是否填寫正確並同意條款",
+          });
+        }
+      });
+
+      // 修改會員資料表單驗證
+      $("#edit_real_name").on("input", function () {
+        if ($(this).val().length > 1 && $(this).val().length < 51) {
+          $(this).removeClass("is-invalid").addClass("is-valid");
+          flag_real_name_edit = true;
+        } else {
+          $(this).removeClass("is-valid").addClass("is-invalid");
+          flag_real_name_edit = false;
+        }
+      });
+
+      $("#edit_user_tel").on("input", function () {
+        if (/^[0-9]{8,20}$/.test($(this).val())) {
+          $(this).removeClass("is-invalid").addClass("is-valid");
+          flag_user_tel_edit = true;
+        } else {
+          $(this).removeClass("is-valid").addClass("is-invalid");
+          flag_user_tel_edit = false;
+        }
+      });
+
+      $("#edit_email").on("input", function () {
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailRegex.test($(this).val().trim())) {
+          $(this).removeClass("is-invalid").addClass("is-valid");
+          flag_email_edit = true;
+        } else {
+          $(this).removeClass("is-valid").addClass("is-invalid");
+          flag_email_edit = false;
+        }
+      });
+
+      $("#edit_password").on("input", function () {
+        var password = $(this).val();
+        if (password === "" || (password.length > 2 && password.length < 8)) {
+          $(this).removeClass("is-invalid").addClass("is-valid");
+          flag_password_edit = true;
+        } else {
+          $(this).removeClass("is-valid").addClass("is-invalid");
+          flag_password_edit = false;
+        }
+      });
+
+      $("#edit_re_password").on("input", function () {
+        if ($(this).val() === $("#edit_password").val()) {
+          $(this).removeClass("is-invalid").addClass("is-valid");
+          flag_password_edit = true;
+        } else {
+          $(this).removeClass("is-valid").addClass("is-invalid");
+          flag_password_edit = false;
+        }
+      });
+
+      // 點擊修改會員資料按鈕時載入資料
+      $("#s02_edit_profile_btn").click(function () {
+        loadUserProfile();
+      });
+
+      // 提交修改會員資料表單
+      $("#editProfileForm").submit(function (event) {
+        event.preventDefault();
+
+        if (
+          flag_real_name_edit &&
+          flag_user_tel_edit &&
+          flag_email_edit &&
+          flag_password_edit
+        ) {
+          var formData = {
+            u_id: getCookie("u_id"),
+            real_name: $("#edit_real_name").val(),
+            user_tel: $("#edit_user_tel").val(),
+            email: $("#edit_email").val(),
+          };
+          if ($("#edit_password").val() !== "") {
+            formData.password = $("#edit_password").val();
+          }
+
+          $.ajax({
+            type: "POST",
+            url: "http://192.168.10.66/users_api.php?action=update_profile",
+            data: JSON.stringify(formData),
+            contentType: "application/json",
+            dataType: "json",
+            xhrFields: { withCredentials: true },
+            success: function (data) {
+              if (data.state) {
+                Swal.fire({
+                  title: "修改成功！",
+                  icon: "success",
+                }).then(() => {
+                  $("#editProfileModal").modal("hide");
+                  $("#s02_user_name_text").text(data.data.real_name); // 更新顯示的姓名
+                });
+              } else {
+                Swal.fire({
+                  title: "修改失敗: " + data.message,
+                  icon: "error",
+                });
+              }
+            },
+            error: function (xhr, status, error) {
+              Swal.fire({
+                title: "API介接錯誤",
+                text: "狀態: " + status + "，錯誤: " + error,
+                icon: "error",
+              });
+            },
+          });
+        } else {
+          Swal.fire({ title: "請檢查表單是否填寫正確", icon: "warning" });
+        }
+      });
+
+      // 登出功能
+      $("#s02_logout_btn").click(function () {
+        setCookie("u_id", "", -1); // 刪除 Cookie
+        setCookie("level", "", -1); // 刪除 Cookie
+        $("#s02_chat_btn").addClass("d-none"); // 登出時隱藏線上諮詢
+        $("#s02_appointments_table_btn").addClass("d-none"); // 登出時隱藏預約資料表格按鈕
+        location.href = "http://192.168.10.66/Car_repair_shop.html";
+      });
+    });
+  </script>
+  <script>
+    (function () {
+      function c() {
+        var b = a.contentDocument || a.contentWindow.document;
+        if (b) {
+          var d = b.createElement("script");
+          d.innerHTML =
+            "window.__CF$cv$params={r:'925ca4ae299944e8',t:'MTc0Mjg4NzIwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+          b.getElementsByTagName("head")[0].appendChild(d);
+        }
+      }
+      if (document.body) {
+        var a = document.createElement("iframe");
+        a.height = 1;
+        a.width = 1;
+        a.style.position = "absolute";
+        a.style.top = 0;
+        a.style.left = 0;
+        a.style.border = "none";
+        a.style.visibility = "hidden";
+        document.body.appendChild(a);
+        if ("loading" !== document.readyState) c();
+        else if (window.addEventListener)
+          document.addEventListener("DOMContentLoaded", c);
+        else {
+          var e = document.onreadystatechange || function () { };
+          document.onreadystatechange = function (b) {
+            e(b);
+            "loading" !== document.readyState &&
+              ((document.onreadystatechange = e), c());
+          };
+        }
+      }
+    })();
+  </script>
+</body>
+
+</html>

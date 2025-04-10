@@ -1,0 +1,327 @@
+/* 文字粗細 */
+.fw-100{
+    font-weight: 100;
+}
+.fw-200{
+    font-weight: 200;
+}
+.fw-300{
+    font-weight: 300;
+}
+.fw-400{
+    font-weight: 400;
+}
+.fw-500{
+    font-weight: 500;
+}
+.fw-600{
+    font-weight: 600;
+}
+.fw-700{
+    font-weight: 700;
+}
+.fw-800{
+    font-weight: 800;
+}
+.fw-900{
+    font-weight: 900;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Kosugi&family=Noto+Sans+JP:wght@100..900&family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet');
+
+:root {
+    --mycolor01: #0359ae;
+    --mycolor02: #14b09b;
+    --mycolor03: #ebe5d9;
+    --mycolor04: #a6c2ce;
+    --mycolor05: #9c8f96;
+    --mycolor06: #ebc57c;
+    --mycolor07: #6b799e;
+    --mycolor08: #97baa4;
+    --mycolor09: #499360;
+    --mycolor10: #295651;
+}
+
+:root {
+    --textcolor01: #324856;
+    --textcolor02: #4A746A;
+    --textcolor03: #D18237;
+    --textcolor04: #d66c44;
+    --textcolor05: #DBDBE5;
+    --textcolor06: #A5B7C1;
+    --textcolor07: #535D55;
+    --textcolor08: #514644;
+    --textcolor09: #EB8F90;
+    --textcolor10: #FFB471;
+}
+
+:root {
+    --morecolor01:#f69864;
+    --morecolor02:#e95761;
+    --morecolor03:#290f02;
+    --morecolor04:#1e4620;
+    --morecolor05:#9e5165;
+    --morecolor06:#a51e22;
+    --morecolor07:#d4587a;
+    --morecolor08:#e6b6c2;
+    --morecolor09:#dc364c;
+    --morecolor10:#c5bfb3;
+}
+
+/* 背景色 */
+.bg-001{
+    background-color: var(--morecolor01);
+}
+.bg-002{
+    background-color: var(--morecolor02);
+}
+.bg-003{
+    background-color: var(--morecolor03);
+}
+.bg-004{
+    background-color: var(--morecolor04);
+}
+.bg-005{
+    background-color: var(--morecolor05);
+}
+.bg-006{
+    background-color: var(--morecolor06);
+}
+.bg-007{
+    background-color: var(--morecolor07);
+}
+.bg-008{
+    background-color: var(--morecolor08);
+}
+.bg-009{
+    background-color: var(--morecolor09);
+}
+.bg-010{
+    background-color: var(--morecolor10);
+}
+
+
+/* 外層: .myroller  內層: .roller */
+.myroller01 {
+    position: relative;
+    /* overflow: hidden 隱藏動畫陰影 */
+    overflow: hidden;
+  }
+
+  .myroller01 .roller01 {
+    position: absolute;
+    /* background-color: rgba(252, 25, 54, 0.3); */
+    background-image: linear-gradient(180deg,
+        rgba(238, 33, 5, 0.5),
+        rgba(9, 5, 243, 0.1));
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: -100%;
+    display: flex;
+    /* justify-content: center 水平方向置中
+       align-items: center     垂直方向置中
+    */
+    justify-content: center;
+    align-items: center;
+  }
+
+  .myroller01:hover .roller01 {
+    left: 0;
+    transition: left 1s;
+  }
+
+  .myroller01 .roller01 a {
+    display: block;
+    width: 130px;
+    height: 50px;
+    background-color: var(--mycolor01);
+    text-decoration: none;
+    text-align: center;
+    line-height: 40px;
+    color: var(--morecolor02);
+    font-size: 18px;
+    border-radius: 20px;
+  }
+
+  /* 外層: .myroller  內層: .roller */
+.myroller02 {
+    position: relative;
+    /* overflow: hidden 隱藏動畫陰影 */
+    overflow: hidden;
+  }
+
+  .myroller02 .roller02 {
+    position: absolute;
+    /* background-color: rgba(252, 25, 54, 0.3); */
+    background-image: linear-gradient(180deg,
+        rgba(238, 33, 5, 0.5),
+        rgba(9, 5, 243, 0.1));
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: -100%;
+    display: flex;
+    /* justify-content: center 水平方向置中
+       align-items: center     垂直方向置中
+    */
+    justify-content: center;
+    align-items: center;
+  }
+
+  .myroller02:hover .roller02 {
+    right: 0;
+    transition: right 1s;
+  }
+
+  .myroller02 .roller02 a {
+    display: block;
+    width: 130px;
+    height: 50px;
+    background-color: var(--mycolor01);
+    text-decoration: none;
+    text-align: center;
+    line-height: 40px;
+    color: var(--morecolor02);
+    font-size: 18px;
+    border-radius: 20px;
+  }
+
+    /* 外層: .myroller  內層: .roller */
+.myroller03 {
+    position: relative;
+    /* overflow: hidden 隱藏動畫陰影 */
+    overflow: hidden;
+  }
+
+  .myroller03 .roller03 {
+    position: absolute;
+    /* background-color: rgba(252, 25, 54, 0.3); */
+    background-image: linear-gradient(180deg,
+        rgba(238, 33, 5, 0.5),
+        rgba(9, 5, 243, 0.1));
+    width: 100%;
+    height: 100%;
+    top: -100%;
+    right: 0;
+    display: flex;
+    /* justify-content: center 水平方向置中
+       align-items: center     垂直方向置中
+    */
+    justify-content: center;
+    align-items: center;
+  }
+
+  .myroller03:hover .roller03 {
+    top: 0;
+    transition: top 1s;
+  }
+
+  .myroller03 .roller03 a {
+    display: block;
+    width: 130px;
+    height: 50px;
+    background-color: var(--mycolor01);
+    text-decoration: none;
+    text-align: center;
+    line-height: 40px;
+    color: var(--morecolor02);
+    font-size: 18px;
+    border-radius: 20px;
+  }
+
+    /* 外層: .myroller  內層: .roller */
+.myroller04 {
+    position: relative;
+    /* overflow: hidden 隱藏動畫陰影 */
+    overflow: hidden;
+  }
+
+  .myroller04 .roller04 {
+    position: absolute;
+    /* background-color: rgba(252, 25, 54, 0.3); */
+    background-image: linear-gradient(180deg,
+        rgba(238, 33, 5, 0.5),
+        rgba(9, 5, 243, 0.1));
+    width: 100%;
+    height: 100%;
+    bottom: -100%;
+    right: 0;
+    display: flex;
+    /* justify-content: center 水平方向置中
+       align-items: center     垂直方向置中
+    */
+    justify-content: center;
+    align-items: center;
+  }
+
+  .myroller04:hover .roller04 {
+    bottom: 0;
+    transition: bottom 1s;
+  }
+
+  .myroller04 .roller04 a {
+    display: block;
+    width: 130px;
+    height: 50px;
+    background-color: var(--mycolor01);
+    text-decoration: none;
+    text-align: center;
+    line-height: 40px;
+    color: var(--morecolor02);
+    font-size: 18px;
+    border-radius: 20px;
+  }
+
+  /* 背景圖 */
+  .bg-cover{
+    background-position: center center;
+    background-size: cover;
+  }
+
+  /* 
+  1. table table-rwd 
+  2. <td data-th="XX"> 
+  3. <span class="table-th">XX</span>  
+  */
+  @media screen and (max-width:768px) {
+    /* body{
+        background-image: linear-gradient(90deg, var( --morecolor08)0%,var(--morecolor02)100%);
+    } */
+    .table-rwd thead {
+        display: none;
+    }
+
+    .table-rwd tbody tr {
+        display: block;
+        border: 5px solid var(--morecolor01);
+        margin-bottom: 15px;
+    }
+
+    .table-rwd tbody tr td {
+        display: block;
+        overflow: hidden;
+    }
+
+    .table-rwd tbody tr td::before {
+        content: attr(data-th) " : ";
+        font-weight: 900;
+        font-size: 24px;
+        color: var(--morecolor02);
+        display: block;
+        float: left;
+        width: 30%;
+        text-align: right;
+        padding-right: 15px;
+    }
+
+    .table-rwd tbody tr td span.table-th {
+        display: block;
+        float: left;
+        width: 70%;
+    }
+}
+
+body {
+    font-family: "Kosugi", sans-serif;
+}

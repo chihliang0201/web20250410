@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>報表</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/my.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h3 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            max-width: 500px;
+            margin: 40px auto;
+        }
+
+        .filter-container {
+            max-width: 300px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .total-amount {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .pagination-container .form-label {
+            margin-bottom: 0;
+        }
+
+        .pagination-container .form-select {
+            width: auto;
+        }
+
+        .pagination-container .btn {
+            margin: 0 5px;
+        }
+
+        #pageInfo {
+            font-size: 1rem;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>報表</h1>
+
+        <!-- 月份篩選下拉選單 -->
+        <div class="filter-container">
+            <label for="monthFilter" class="form-label">選擇月份：</label>
+            <select id="monthFilter" class="form-select">
+                <option value="">全部月份</option>
+                <!-- 動態生成月份選項 -->
+            </select>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>預約ID</th>
+                        <th>用戶姓名</th>
+                        <th>電話號碼</th>
+                        <th>車輛型號</th>
+                        <th>服務類型</th>
+                        <th>預約日期</th>
+                        <th>維修狀態</th>
+                        <th>建立時間</th>
+                        <th>估價 (NT$)</th>
+                        <th>實際價格 (NT$)</th>
+                    </tr>
+                </thead>
+                <tbody id="appointmentsTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- 添加分頁控制 -->
+        <div class="pagination-container" style="text-align: center; margin-top: 20px;">
+            <label for="rowsPerPage" class="form-label" style="margin-right: 10px;">每頁顯示筆數：</label>
+            <select id="rowsPerPage" class="form-select"
+                style="display: inline-block; width: auto; margin-right: 20px;">
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+            </select>
+            <button id="prevPage" class="btn btn-secondary" disabled>上一頁</button>
+            <span id="pageInfo" style="margin: 0 15px;">第 1 頁 / 共 1 頁</span>
+            <button id="nextPage" class="btn btn-secondary" disabled>下一頁</button>
+        </div>
+
+        <!-- 實際價格圓餅圖 -->
+        <div class="chart-container">
+            <h3>實際價格分佈</h3>
+            <canvas id="priceChart"></canvas>
+            <!-- 顯示總金額 -->
+            <div class="total-amount" id="totalAmount">總金額：NT$ 0</div>
+        </div>
+    </div>
+
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let allReservations = []; // 儲存所有預約資料
+        let priceChart; // 儲存 Chart.js 實例
+        let currentPage = 1; // 當前頁數
+        let rowsPerPage = 10; // 每頁顯示筆數（預設為 10）
+
+        function getCookie(name) {
+            let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            if (match) return match[2];
+        }
+
+        // 動態生成月份選項（從資料中提取）
+        function populateMonthFilter(reservations) {
+            const months = new Set();
+            reservations.forEach(reservation => {
+                const date = new Date(reservation.appointment_date);
+                const month = date.toISOString().slice(0, 7); // 格式：YYYY-MM
+                months.add(month);
+            });
+
+            const monthFilter = $("#monthFilter");
+            months.forEach(month => {
+                monthFilter.append(`<option value="${month}">${month}</option>`);
+            });
+        }
+
+        // 根據所選月份過濾資料並更新表格、圖表和總金額
+        function filterAndUpdate(month) {
+            let filteredReservations = allReservations;
+            if (month) {
+                filteredReservations = allReservations.filter(reservation => {
+                    const date = new Date(reservation.appointment_date);
+                    return date.toISOString().slice(0, 7) === month;
+                });
+            }
+
+            // 更新表格（帶分頁）
+            updateTable(filteredReservations);
+            // 更新圓餅圖和總金額
+            updatePriceChart(filteredReservations);
+        }
+
+        // 更新表格（帶分頁）
+        function updateTable(reservations) {
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedReservations = reservations.slice(start, end);
+            const totalPages = Math.ceil(reservations.length / rowsPerPage) || 1;
+
+            let content = '';
+            if (paginatedReservations.length === 0) {
+                content = '<tr><td colspan="10">無資料</td></tr>';
+            } else {
+                paginatedReservations.forEach(function (reservation) {
+                    content += `
+                <tr>
+                    <td>${reservation.appointments_id}</td>
+                    <td>${reservation.user_name}</td>
+                    <td>${reservation.user_tel}</td>
+                    <td>${reservation.car_model}</td>
+                    <td>${reservation.service_type}</td>
+                    <td>${reservation.appointment_date}</td>
+                    <td>${reservation.car_status}</td>
+                    <td>${reservation.appointment_created_at}</td>
+                    <td>${reservation.estimated_price || '未填寫'}</td>
+                    <td>${reservation.actual_price || '未填寫'}</td>
+                </tr>`;
+                });
+            }
+            $("#appointmentsTableBody").html(content);
+
+            // 更新分頁資訊
+            $("#pageInfo").text(`第 ${currentPage} 頁 / 共 ${totalPages} 頁`);
+            $("#prevPage").prop("disabled", currentPage === 1);
+            $("#nextPage").prop("disabled", currentPage === totalPages);
+        }
+
+        // 更新實際價格圓餅圖和總金額
+        function updatePriceChart(reservations) {
+            const priceRanges = {
+                '0-1000': 0,
+                '1001-5000': 0,
+                '5001-10000': 0,
+                '10001以上': 0
+            };
+
+            let totalAmount = 0;
+
+            reservations.forEach(reservation => {
+                const price = parseFloat(reservation.actual_price);
+                if (isNaN(price)) return;
+                totalAmount += price;
+                if (price <= 1000) {
+                    priceRanges['0-1000']++;
+                } else if (price <= 5000) {
+                    priceRanges['1001-5000']++;
+                } else if (price <= 10000) {
+                    priceRanges['5001-10000']++;
+                } else {
+                    priceRanges['10001以上']++;
+                }
+            });
+
+            $("#totalAmount").text(`總金額：NT$ ${totalAmount.toLocaleString()}`);
+
+            const labels = Object.keys(priceRanges);
+            const data = Object.values(priceRanges);
+            const backgroundColors = [
+                'rgba(255, 99, 132, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(255, 206, 86, 0.7)',
+                'rgba(75, 192, 192, 0.7)'
+            ];
+
+            if (priceChart) {
+                priceChart.destroy();
+            }
+
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            priceChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '實際價格分佈',
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: '實際價格分佈 (NT$)'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    let label = context.label || '';
+                                    let value = context.raw || 0;
+                                    let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    let percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                    return `${label}: ${value} 筆 (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // 載入預約資料
+        function loadAppointments() {
+            const u_id = getCookie('u_id');
+            const level = getCookie('level');
+            let url;
+
+            if (!u_id) {
+                Swal.fire('錯誤', '請先登入！', 'error').then(() => {
+                    window.location.href = "http://192.168.10.66/car_user_login.html";
+                });
+                return;
+            }
+
+            if (level == 1) {
+                url = `http://192.168.10.66/appointments_api.php?action=get_all_reservations`;
+            } else if (level == 2) {
+                url = `http://192.168.10.66/appointments_api.php?action=get_user_reservations`;
+            } else {
+                Swal.fire('錯誤', '您無權查看此資料！', 'error');
+                return;
+            }
+
+            $.ajax({
+                url: url,
+                method: "GET",
+                dataType: "json",
+                xhrFields: { withCredentials: true },
+                success: function (response) {
+                    if (response.state) {
+                        allReservations = response.data.reservations;
+                        populateMonthFilter(allReservations);
+                        filterAndUpdate('');
+                    } else {
+                        Swal.fire("錯誤", "無法獲取資料: " + response.message, "error");
+                    }
+                },
+                error: function () {
+                    Swal.fire("錯誤", "API連線錯誤，請稍後再試。", "error");
+                }
+            });
+        }
+
+        // 監聽月份篩選和分頁變化
+        $(document).ready(function () {
+            loadAppointments();
+
+            // 監聽月份篩選變化
+            $("#monthFilter").on("change", function () {
+                currentPage = 1; // 重置到第一頁
+                const selectedMonth = $(this).val();
+                filterAndUpdate(selectedMonth);
+            });
+
+            // 監聽每頁筆數變化
+            $("#rowsPerPage").on("change", function () {
+                rowsPerPage = parseInt($(this).val());
+                currentPage = 1; // 重置到第一頁
+                const selectedMonth = $("#monthFilter").val();
+                filterAndUpdate(selectedMonth);
+            });
+
+            // 上一頁按鈕
+            $("#prevPage").on("click", function () {
+                if (currentPage > 1) {
+                    currentPage--;
+                    const selectedMonth = $("#monthFilter").val();
+                    filterAndUpdate(selectedMonth);
+                }
+            });
+
+            // 下一頁按鈕
+            $("#nextPage").on("click", function () {
+                const totalPages = Math.ceil(allReservations.length / rowsPerPage) || 1;
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    const selectedMonth = $("#monthFilter").val();
+                    filterAndUpdate(selectedMonth);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

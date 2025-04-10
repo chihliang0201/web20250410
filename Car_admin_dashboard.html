@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>後台管理</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/my.css" />
+    <style>
+        body {
+            background-image: url("/images/car.rep.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            font-size: 20px;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            max-width: 1400px;
+            margin: 20px auto;
+        }
+
+        .completed td:not(:last-child) {
+            text-decoration: line-through;
+        }
+
+        .dropdown-item,
+        .dropdown-toggle {
+            font-size: 20px;
+        }
+
+        .faded {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .resolve-btn {
+            background-color: #17a2b8;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .resolve-btn:hover {
+            background-color: #138496;
+        }
+
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .pagination-container .form-label {
+            margin-right: 10px;
+            margin-bottom: 0;
+        }
+
+        .pagination-container .form-select {
+            width: auto;
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        .pagination-container .btn {
+            margin: 0 5px;
+        }
+
+        .pagination-container span {
+            font-size: 1rem;
+            color: #333;
+            margin: 0 15px;
+        }
+
+        .suspend-btn {
+            background-color: #df1616;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .suspend-btn:hover {
+            background-color: #c82333;
+        }
+
+        .unsuspend-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .unsuspend-btn:hover {
+            background-color: #218838;
+        }
+
+        #chatMessagesSection {
+            margin-top: 20px;
+        }
+
+        #chatMessagesSection table {
+            width: 100%;
+            table-layout: fixed;
+            margin-bottom: 0;
+        }
+
+        #chatMessagesSection th,
+        #chatMessagesSection td {
+            padding: 10px;
+            vertical-align: top;
+        }
+
+        #chatMessagesSection th:nth-child(1),
+        #chatMessagesSection td:nth-child(1) {
+            width: 15%;
+        }
+
+        #chatMessagesSection th:nth-child(2),
+        #chatMessagesSection td:nth-child(2) {
+            width: 85%;
+            padding: 0;
+        }
+
+        #chatMessagesSection .user-group {
+            border-bottom: 2px solid #ddd;
+        }
+
+        #chatMessagesSection .user-group-container {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border: 2px solid #666;
+            max-height: 600px;
+            /* 加大可視範圍 */
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        #chatMessagesSection .user-group-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #chatMessagesSection .user-group-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        #chatMessagesSection .user-group-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        #chatMessagesSection .user-group-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        #chatMessagesSection .user-group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            position: sticky;
+            top: 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            z-index: 1;
+        }
+
+        #chatMessagesSection .user-group-title {
+            font-size: 1.1em;
+            color: #333;
+            margin: 0;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        #chatMessagesSection .chat-message {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+        #chatMessagesSection .chat-message.user {
+            align-items: flex-start;
+            margin-left: 0;
+            margin-right: auto;
+        }
+
+        #chatMessagesSection .chat-message.admin {
+            align-items: flex-end;
+            margin-left: auto;
+            margin-right: 0;
+        }
+
+        #chatMessagesSection .sender {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        #chatMessagesSection .chat-message.user .sender {
+            color: #007bff;
+        }
+
+        #chatMessagesSection .chat-message.admin .sender {
+            color: #28a745;
+        }
+
+        #chatMessagesSection .message-bubble {
+            max-width: 70%;
+            padding: 10px;
+            border-radius: 10px;
+            color: #fff;
+            white-space: pre-wrap;
+            word-break: break-word;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid;
+        }
+
+        #chatMessagesSection .chat-message.user .message-bubble {
+            background-color: #007bff;
+            border-color: #0056b3;
+        }
+
+        #chatMessagesSection .chat-message.admin .message-bubble {
+            background-color: #28a745;
+            border-color: #1e7e34;
+        }
+
+        #chatMessagesSection .message-content {
+            margin-bottom: 5px;
+        }
+
+        #chatMessagesSection .timestamp {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        #chatMessagesSection .chat-message.user .timestamp {
+            text-align: left;
+        }
+
+        #chatMessagesSection .chat-message.admin .timestamp {
+            text-align: right;
+        }
+
+        #chatMessagesSection .no-messages {
+            color: #888;
+            font-style: italic;
+            text-align: center;
+            padding: 10px;
+        }
+
+        #userSelectContainer {
+            margin-bottom: 20px;
+        }
+
+        .chat-message.unread .message-bubble {
+            border: 2px dashed #ff0000;
+        }
+
+        #chatMessagesSection table th:first-child,
+        #chatMessagesSection table td:first-child {
+            width: 150px;
+        }
+
+        #chatMessagesSection .user-group-container {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .chat-input-container {
+            margin-left: 150px;
+            width: calc(100% - 150px - 2px);
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        #adminChatForm .input-group {
+            width: 100%;
+        }
+
+        #unreadCountBadge,
+        #totalUnreadCount {
+            font-size: 1em;
+            padding: 5px 10px;
+            border-radius: 12px;
+        }
+
+        #unreadCountBadge {
+            vertical-align: middle;
+        }
+
+        #totalUnreadCount {
+            margin-left: 10px;
+        }
+
+        #totalUnreadCountTop {
+            font-size: 1em;
+            padding: 5px 10px;
+            border-radius: 12px;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+
+        #userSelect option[data-unread] {
+            color: #333;
+            background-color: #ffcccc;
+        }
+
+        #userSelect option[data-unread]::after {
+            content: attr(data-unread);
+            color: #dc3545;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        @media (max-width: 768px) {
+
+            #chatMessagesSection table th:first-child,
+            #chatMessagesSection table td:first-child {
+                width: 100px;
+            }
+
+            .chat-input-container {
+                margin-left: 100px;
+                width: calc(100% - 100px - 2px);
+            }
+
+            #chatMessagesSection .user-group-container {
+                max-height: 400px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            #chatMessagesSection table th:first-child,
+            #chatMessagesSection table td:first-child {
+                width: 80px;
+            }
+
+            .chat-input-container {
+                margin-left: 80px;
+                width: calc(100% - 80px - 2px);
+            }
+
+            #chatMessagesSection .user-group-container {
+                max-height: 300px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section id="s07" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">後台管理</h2>
+            <div class="dropdown mb-4">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    選擇管理項目
+                </button>
+                <span id="totalUnreadCountTop" class="badge bg-danger"
+                    style="margin-left: 10px; display: none">未讀訊息：0</span>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li>
+                        <a class="dropdown-item" href="#" id="viewMembers">會員名單</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#" id="viewChatMessages">線上諮詢管理</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#" id="viewReservations">預約管理</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#" id="viewCompletedReservations">完成預約</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 會員名單 -->
+            <div id="membersSection" class="d-none">
+                <h3>會員名單</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>會員ID</th>
+                            <th>帳號</th>
+                            <th>真實姓名</th>
+                            <th>電子郵件</th>
+                            <th>電話號碼</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="members-body"></tbody>
+                </table>
+                <div class="pagination-container" id="membersPagination">
+                    <label for="membersRowsPerPage" class="form-label">每頁顯示筆數：</label>
+                    <select id="membersRowsPerPage" class="form-select">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                    <button id="membersPrevPage" class="btn btn-secondary" disabled>
+                        上一頁
+                    </button>
+                    <span id="membersPageInfo">第 1 頁 / 共 1 頁</span>
+                    <button id="membersNextPage" class="btn btn-secondary" disabled>
+                        下一頁
+                    </button>
+                </div>
+            </div>
+
+            <!-- 預約管理 -->
+            <div id="reservationsSection" class="d-none">
+                <h3>預約管理</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>預約ID</th>
+                            <th>用戶姓名</th>
+                            <th>電話號碼</th>
+                            <th>車輛型號</th>
+                            <th>服務類型</th>
+                            <th>預約日期</th>
+                            <th>維修狀態</th>
+                            <th>估價 (NT$)</th>
+                            <th>實際價格 (NT$)</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reservations-body"></tbody>
+                </table>
+                <div class="pagination-container" id="reservationsPagination">
+                    <label for="reservationsRowsPerPage" class="form-label">每頁顯示筆數：</label>
+                    <select id="reservationsRowsPerPage" class="form-select">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                    <button id="reservationsPrevPage" class="btn btn-secondary" disabled>
+                        上一頁
+                    </button>
+                    <span id="reservationsPageInfo">第 1 頁 / 共 1 頁</span>
+                    <button id="reservationsNextPage" class="btn btn-secondary" disabled>
+                        下一頁
+                    </button>
+                </div>
+            </div>
+
+            <!-- 完成預約 -->
+            <div id="completedReservationsSection" class="d-none">
+                <h3>完成預約</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>預約ID</th>
+                            <th>用戶姓名</th>
+                            <th>電話號碼</th>
+                            <th>車輛型號</th>
+                            <th>服務類型</th>
+                            <th>預約日期</th>
+                            <th>維修狀態</th>
+                            <th>估價 (NT$)</th>
+                            <th>實際價格 (NT$)</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="completed-reservations-body"></tbody>
+                </table>
+                <div class="pagination-container" id="completedReservationsPagination">
+                    <label for="completedReservationsRowsPerPage" class="form-label">每頁顯示筆數：</label>
+                    <select id="completedReservationsRowsPerPage" class="form-select">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                    <button id="completedReservationsPrevPage" class="btn btn-secondary" disabled>
+                        上一頁
+                    </button>
+                    <span id="completedReservationsPageInfo">第 1 頁 / 共 1 頁</span>
+                    <button id="completedReservationsNextPage" class="btn btn-secondary" disabled>
+                        下一頁
+                    </button>
+                </div>
+            </div>
+
+            <!-- 線上諮詢管理 -->
+            <div id="chatMessagesSection" class="d-none">
+                <h3>線上諮詢管理</h3>
+                <div id="userSelectContainer">
+                    <label for="userSelect" class="form-label">選擇會員：</label>
+                    <select class="form-select" id="userSelect">
+                        <option value="">請選擇會員</option>
+                    </select>
+                    <span id="unreadCountBadge" class="badge bg-danger" style="margin-left: 10px; display: none">有 0
+                        則未讀訊息</span>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>用戶ID</th>
+                            <th>對話內容</th>
+                        </tr>
+                    </thead>
+                    <tbody id="chat-messages-body">
+                        <!-- 這裡動態生成對話內容 -->
+                    </tbody>
+                </table>
+                <div class="chat-input-container">
+                    <form id="adminChatForm">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="adminChatInput" placeholder="輸入您的回覆..."
+                                required />
+                            <button type="submit" class="btn btn-primary">發送</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="user-group-header">
+                    <h5 class="user-group-title">
+                        對話記錄
+                        <span id="totalUnreadCount" class="badge bg-danger" style="font-size: 0.9em; display: none">有 0
+                            則未讀訊息</span>
+                    </h5>
+                    <button class="btn btn-success resolve-btn" id="resolveBtn" style="display: none" data-u-id="">
+                        已完成訊息
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal fade" id="editReservationModal" tabindex="-1" aria-labelledby="editReservationModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editReservationModalLabel">
+                        更改維修單
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editReservationForm">
+                        <input type="hidden" id="editAppointmentsId" />
+                        <div class="mb-3">
+                            <label for="editAppointmentDate" class="form-label">預約時間</label><input type="datetime-local"
+                                class="form-control" id="editAppointmentDate" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editEstimatedPrice" class="form-label">估價 (NT$)</label><input type="number"
+                                class="form-control" id="editEstimatedPrice" min="0" step="1" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editActualPrice" class="form-label">實際價格 (NT$)</label><input type="number"
+                                class="form-control" id="editActualPrice" min="0" step="1" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCarStatus" class="form-label">維修狀態</label><select class="form-control"
+                                id="editCarStatus" required>
+                                <option value="待維修">待維修</option>
+                                <option value="進行中">進行中</option>
+                                <option value="已完成">已完成</option>
+                                <option value="已取消">已取消</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">更新預約</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="replyChatWindow" class="reply-window" style="display: none">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="replyChatModalLabel">回覆訊息</h5>
+                <button type="button" class="btn-close" id="closeReplyWindow" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="replyChatForm">
+                    <input type="hidden" id="replyUId" />
+                    <div class="mb-3">
+                        <label for="replyMessage" class="form-label">回覆內容</label><textarea class="form-control"
+                            id="replyMessage" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">發送回覆</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        var membersPage = 1,
+            membersRowsPerPage = 10;
+        var reservationsPage = 1,
+            reservationsRowsPerPage = 10;
+        var completedReservationsPage = 1,
+            completedReservationsRowsPerPage = 10;
+
+        var allMembers = [],
+            allReservations = [],
+            allCompletedReservations = [],
+            allChatMessages = [];
+
+        // 防抖函數：限制函數在指定時間內只執行一次
+        function debounce(func, wait) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            return parts.length == 2 ? parts.pop().split(";").shift() : null;
+        }
+
+        function handleAjaxError(message) {
+            Swal.fire("錯誤", message || "API連線錯誤，請稍後再試。", "error");
+        }
+
+        function checkAdminAccess() {
+            var u_id = getCookie("u_id");
+            var level = getCookie("level");
+            if (!u_id || level != 1) {
+                Swal.fire({ title: "請以管理員身分登入", icon: "warning" }).then(
+                    () => {
+                        window.location.href =
+                            "http://192.168.10.66/Car_repair_shop.html";
+                    }
+                );
+                return false;
+            }
+            return true;
+        }
+
+        function setupPagination(
+            section,
+            rowsPerPageId,
+            prevBtnId,
+            nextBtnId,
+            pageInfoId,
+            dataArray,
+            updateFn
+        ) {
+            $(`#${rowsPerPageId}`).on("change", function () {
+                window[`${section}RowsPerPage`] = parseInt($(this).val());
+                window[`${section}Page`] = 1;
+                updateFn();
+            });
+            $(`#${prevBtnId}`).on("click", function () {
+                if (window[`${section}Page`] > 1) {
+                    window[`${section}Page`]--;
+                    updateFn();
+                }
+            });
+            $(`#${nextBtnId}`).on("click", function () {
+                const totalPages =
+                    Math.ceil(dataArray.length / $(`#${rowsPerPageId}`).val()) || 1;
+                if (window[`${section}Page`] < totalPages) {
+                    window[`${section}Page`]++;
+                    updateFn();
+                }
+            });
+        }
+
+        function loadMembers() {
+            $.ajax({
+                url: "http://192.168.10.66/users_api.php?action=get_all_users",
+                method: "GET",
+                dataType: "json",
+                async: false,
+                xhrFields: { withCredentials: true },
+                success: function (response) {
+                    if (response.state) {
+                        allMembers = response.data.members || [];
+                        updateMembersTable();
+                    } else {
+                        handleAjaxError("無法獲取會員資料: " + response.message);
+                    }
+                },
+                error: handleAjaxError,
+            });
+        }
+
+        function updateMembersTable() {
+            const rowsPerPage = membersRowsPerPage;
+            const page = membersPage;
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedMembers = allMembers.slice(start, end);
+            const totalPages =
+                Math.ceil(allMembers.length / $("#membersRowsPerPage").val()) || 1;
+            $("#members-body").html(
+                paginatedMembers.length === 0
+                    ? '<tr><td colspan="6">無會員資料</td></tr>'
+                    : paginatedMembers
+                        .map(
+                            (member) => `
+                    <tr>
+                        <td>${member.user_id}</td>
+                        <td>${member.user_name}</td>
+                        <td>${member.real_name}</td>
+                        <td>${member.email}</td>
+                        <td>${member.user_tel}</td>
+                        <td>${member.level == 1
+                                    ? '<button class="btn btn-danger" disabled>不可操作</button>'
+                                    : member.is_suspended == 1
+                                        ? `<button class="btn btn-success unsuspend-btn" data-id="${member.user_id}">取消停權</button>`
+                                        : `<button class="btn btn-warning suspend-btn" data-id="${member.user_id}">停權</button>`
+                                }</td>
+                    </tr>
+                `
+                        )
+                        .join("")
+            );
+            $("#membersPageInfo").text(
+                `第 ${membersPage} 頁 / 共 ${totalPages} 頁`
+            );
+            $("#membersPrevPage").prop("disabled", membersPage === 1);
+            $("#membersNextPage").prop("disabled", membersPage === totalPages);
+
+            $(".suspend-btn")
+                .off("click")
+                .on("click", function () {
+                    var userId = $(this).data("id");
+                    Swal.fire({
+                        title: "確定要停權此會員嗎？",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "確定",
+                        cancelButtonText: "取消",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: "http://192.168.10.66/users_api.php?action=suspend_user",
+                                method: "POST",
+                                data: JSON.stringify({ user_id: userId }),
+                                contentType: "application/json",
+                                dataType: "json",
+                                xhrFields: { withCredentials: true },
+                                success: function (response) {
+                                    if (response.state) {
+                                        Swal.fire("成功", "會員已停權", "success");
+                                        loadMembers();
+                                    } else {
+                                        handleAjaxError("停權失敗: " + response.message);
+                                    }
+                                },
+                                error: handleAjaxError,
+                            });
+                        }
+                    });
+                });
+
+            $(".unsuspend-btn")
+                .off("click")
+                .on("click", function () {
+                    var userId = $(this).data("id");
+                    Swal.fire({
+                        title: "確定要取消停權此會員嗎？",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "確定",
+                        cancelButtonText: "取消",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: "http://192.168.10.66/users_api.php?action=unsuspend_user",
+                                method: "POST",
+                                data: JSON.stringify({ user_id: userId }),
+                                contentType: "application/json",
+                                dataType: "json",
+                                xhrFields: { withCredentials: true },
+                                success: function (response) {
+                                    if (response.state) {
+                                        Swal.fire("成功", "會員已取消停權", "success");
+                                        loadMembers();
+                                    } else {
+                                        handleAjaxError("取消停權失敗: " + response.message);
+                                    }
+                                },
+                                error: handleAjaxError,
+                            });
+                        }
+                    });
+                });
+        }
+
+        function loadReservations() {
+            $.ajax({
+                url: "http://192.168.10.66/appointments_api.php?action=get_all_reservations",
+                method: "GET",
+                dataType: "json",
+                async: false,
+                xhrFields: { withCredentials: true },
+                success: function (response) {
+                    if (response.state) {
+                        allReservations = (response.data.reservations || []).filter(
+                            (res) => res.car_status !== "已完成"
+                        );
+                        updateReservationsTable();
+                    } else {
+                        if (response.message.includes("帳號已被停權")) {
+                            Swal.fire("錯誤", response.message, "error").then(() => {
+                                document.cookie =
+                                    "u_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                                window.location.href =
+                                    "http://192.168.10.66/Car_repair_shop.html";
+                            });
+                        } else {
+                            handleAjaxError("無法獲取預約資料: " + response.message);
+                        }
+                    }
+                },
+                error: handleAjaxError,
+            });
+        }
+
+        function updateReservationsTable() {
+            const rowsPerPage = reservationsRowsPerPage;
+            const page = reservationsPage;
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedReservations = allReservations.slice(start, end);
+            const totalPages =
+                Math.ceil(allReservations.length / reservationsRowsPerPage) || 1;
+
+            $("#reservations-body").html(
+                paginatedReservations.length === 0
+                    ? '<tr><td colspan="10">無資料</td></tr>'
+                    : paginatedReservations
+                        .map(
+                            (reservation) => `
+                    <tr>
+                        <td>${reservation.appointments_id}</td>
+                        <td>${reservation.user_name}</td>
+                        <td>${reservation.user_tel}</td>
+                        <td>${reservation.car_model}</td>
+                        <td>${reservation.service_type}</td>
+                        <td>${reservation.appointment_date}</td>
+                        <td>${reservation.car_status}</td>
+                        <td>${reservation.estimated_price || "未填寫"}</td>
+                        <td>${reservation.actual_price || "未填寫"}</td>
+                        <td><button class="btn btn-primary edit-btn me-2" data-id="${reservation.appointments_id}" data-user-name="${reservation.user_name}" data-user-tel="${reservation.user_tel}" data-car-model="${reservation.car_model}" data-service-type="${reservation.service_type}" data-appointment-date="${reservation.appointment_date}" data-car-status="${reservation.car_status}" data-estimated-price="${reservation.estimated_price}" data-actual-price="${reservation.actual_price}">更改</button></td>
+                    </tr>
+                `
+                        )
+                        .join("")
+            );
+            $("#reservationsPageInfo").text(
+                `第 ${reservationsPage} 頁 / 共 ${totalPages} 頁`
+            );
+            $("#reservationsPrevPage").prop("disabled", reservationsPage === 1);
+            $("#reservationsNextPage").prop(
+                "disabled",
+                reservationsPage === totalPages
+            );
+
+            $(".edit-btn")
+                .off("click")
+                .on("click", function () {
+                    $("#editAppointmentsId").val($(this).data("id"));
+                    $("#editAppointmentDate").val(
+                        $(this)
+                            .data("appointment-date")
+                            .replace(" ", "T")
+                            .substring(0, 16)
+                    );
+                    $("#editCarStatus").val($(this).data("car-status"));
+                    $("#editEstimatedPrice").val($(this).data("estimated-price") || "");
+                    $("#editActualPrice").val($(this).data("actual-price") || "");
+                    $("#editReservationModal").modal("show");
+                });
+        }
+
+        function loadCompletedReservations() {
+            $.ajax({
+                url: "http://192.168.10.66/appointments_api.php?action=get_completed_reservations",
+                method: "GET",
+                dataType: "json",
+                async: false,
+                xhrFields: { withCredentials: true },
+                success: function (response) {
+                    if (response.state) {
+                        allCompletedReservations = response.data.reservations || [];
+                        updateCompletedReservationsTable();
+                    } else {
+                        handleAjaxError("無法獲取完成預約資料: " + response.message);
+                    }
+                },
+                error: handleAjaxError,
+            });
+        }
+
+        function updateCompletedReservationsTable() {
+            const rowsPerPage = completedReservationsRowsPerPage;
+            const page = reservationsPage;
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedReservations = allCompletedReservations.slice(start, end);
+            const totalPages =
+                Math.ceil(
+                    allCompletedReservations.length / completedReservationsRowsPerPage
+                ) || 1;
+
+            $("#completed-reservations-body").html(
+                paginatedReservations.length === 0
+                    ? '<tr><td colspan="10">無資料</td></tr>'
+                    : paginatedReservations
+                        .map(
+                            (reservation) => `
+                    <tr class="completed">
+                        <td>${reservation.appointments_id}</td>
+                        <td>${reservation.user_name}</td>
+                        <td>${reservation.user_tel}</td>
+                        <td>${reservation.car_model}</td>
+                        <td>${reservation.service_type}</td>
+                        <td>${reservation.appointment_date}</td>
+                        <td>${reservation.car_status}</td>
+                        <td>${reservation.estimated_price || "未填寫"}</td>
+                        <td>${reservation.actual_price || "未填寫"}</td>
+                        <td><button class="btn btn-primary edit-btn me-2" data-id="${reservation.appointments_id}" data-user-name="${reservation.user_name}" data-user-tel="${reservation.user_tel}" data-car-model="${reservation.car_model}" data-service-type="${reservation.service_type}" data-appointment-date="${reservation.appointment_date}" data-car-status="${reservation.car_status}" data-estimated-price="${reservation.estimated_price}" data-actual-price="${reservation.actual_price}">更改</button></td>
+                    </tr>
+                `
+                        )
+                        .join("")
+            );
+            $("#completedReservationsPageInfo").text(
+                `第 ${completedReservationsPage} 頁 / 共 ${totalPages} 頁`
+            );
+            $("#completedReservationsPrevPage").prop(
+                "disabled",
+                completedReservationsPage === 1
+            );
+            $("#completedReservationsNextPage").prop(
+                "disabled",
+                completedReservationsPage === totalPages
+            );
+
+            $(".edit-btn")
+                .off("click")
+                .on("click", function () {
+                    $("#editAppointmentsId").val($(this).data("id"));
+                    $("#editAppointmentDate").val(
+                        $(this)
+                            .data("appointment-date")
+                            .replace(" ", "T")
+                            .substring(0, 16)
+                    );
+                    $("#editCarStatus").val($(this).data("car-status"));
+                    $("#editEstimatedPrice").val($(this).data("estimated-price") || "");
+                    $("#editActualPrice").val($(this).data("actual-price") || "");
+                    $("#editReservationModal").modal("show");
+                });
+        }
+
+        function loadTotalUnreadCount() {
+            $.ajax({
+                url: "http://192.168.10.66/users_api.php?action=get_total_unread_count",
+                method: "GET",
+                dataType: "json",
+                xhrFields: { withCredentials: true },
+                success: function (response) {
+                    if (response.state) {
+                        const unreadCount = response.data.unread_count || 0;
+                        $("#totalUnreadCountTop")
+                            .text(`未讀訊息：${unreadCount}`)
+                            .toggle(unreadCount > 0);
+                    }
+                },
+                error: function () {
+                    // console.error("無法獲取未讀訊息總數");
+                },
+            });
+        }
+
+        // 改進 loadChatMessages 函數，確保數據正確更新
+        const debouncedLoadChatMessages = debounce(function (user_id) {
+            if (!checkAdminAccess()) return;
+            if (!user_id) {
+                $("#chat-messages-body").html(
+                    '<tr><td colspan="2">請選擇一位會員以查看訊息</td></tr>'
+                );
+                return;
+            }
+            $.ajax({
+                type: "GET",
+                url: `http://192.168.10.66/users_api.php?action=get_messages&u_id=${user_id}`,
+                dataType: "json",
+                xhrFields: { withCredentials: true },
+                success: function (response) {
+                    if (response.state) {
+                        // 確保 allChatMessages 數據正確更新
+                        const newMessages = response.data.messages || [];
+                        // 按時間排序，確保最新訊息在最底部
+                        allChatMessages = newMessages.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+                        updateChatMessagesTable(user_id);
+                    } else {
+                        if (response.message.includes("帳號已被停權")) {
+                            Swal.fire("錯誤", response.message, "error").then(() => {
+                                document.cookie =
+                                    "u_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                                window.location.href =
+                                    "http://192.168.10.66/Car_repair_shop.html";
+                            });
+                        } else {
+                            $("#chat-messages-body").html(
+                                `<tr><td colspan="2">載入訊息失敗: ${response.message}</td></tr>`
+                            );
+                        }
+                    }
+                },
+                error: handleAjaxError,
+            });
+        }, 500); // 500ms 防抖
+
+        // 改進 updateChatMessagesTable 函數，實現增量更新
+        function updateChatMessagesTable(user_id) {
+            const chatContainer = $("#chat-messages-body .user-group-container");
+            const unreadCount = allChatMessages.filter(
+                (msg) => msg.is_read == 0 && msg.sender === "user"
+            ).length;
+
+            // 如果容器不存在，則初始化整個聊天記錄
+            if (!chatContainer.length) {
+                $("#chat-messages-body").html(
+                    allChatMessages.length === 0
+                        ? '<tr><td colspan="2">無訊息記錄</td></tr>'
+                        : `
+                    <tr class="user-group">
+                        <td>${user_id}</td>
+                        <td>
+                            <div class="user-group-container">
+                                <div class="user-group-header"><h5 class="user-group-title">對話記錄</h5></div>
+                                <div class="messages-container">
+                                    ${allChatMessages
+                            .map(
+                                (msg) => `
+                                        <div class="chat-message ${msg.sender === "user" ? "user" : "admin"} ${msg.is_read == 0 && msg.sender === "user" ? "unread" : ""}" data-message-id="${msg.message_id || msg.created_at}">
+                                            <div class="sender">${msg.sender === "user" ? msg.real_name || "會員" : "客服"}</div>
+                                            <div class="message-bubble">
+                                                <div class="message-content">${msg.message.replace(/\n/g, "<br>")}</div>
+                                                <div class="timestamp">${msg.created_at}</div>
+                                            </div>
+                                        </div>
+                                    `
+                            )
+                            .join("")}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                `
+                );
+            } else {
+                // 增量更新：只追加新訊息
+                const messagesContainer = chatContainer.find(".messages-container");
+                const existingMessageIds = new Set(
+                    messagesContainer.find(".chat-message").map((_, el) => $(el).data("message-id")).get()
+                );
+                const newMessages = allChatMessages.filter(
+                    (msg) => !existingMessageIds.has(msg.message_id || msg.created_at)
+                );
+
+                if (newMessages.length > 0) {
+                    messagesContainer.append(
+                        newMessages
+                            .map(
+                                (msg) => `
+                            <div class="chat-message ${msg.sender === "user" ? "user" : "admin"} ${msg.is_read == 0 && msg.sender === "user" ? "unread" : ""}" data-message-id="${msg.message_id || msg.created_at}">
+                                <div class="sender">${msg.sender === "user" ? msg.real_name || "會員" : "客服"}</div>
+                                <div class="message-bubble">
+                                    <div class="message-content">${msg.message.replace(/\n/g, "<br>")}</div>
+                                    <div class="timestamp">${msg.created_at}</div>
+                                </div>
+                            </div>
+                        `
+                            )
+                            .join("")
+                    );
+                }
+            }
+
+            // 自動滾動到底部
+            const updatedChatContainer = $("#chat-messages-body .user-group-container");
+            if (updatedChatContainer.length) {
+                updatedChatContainer.scrollTop(updatedChatContainer[0].scrollHeight);
+            }
+
+            // 更新未讀訊息計數
+            $("#unreadCountBadge")
+                .text(`有 ${unreadCount} 則未讀訊息`)
+                .toggle(unreadCount > 0);
+            $("#totalUnreadCount")
+                .text(`有 ${unreadCount} 則未讀訊息`)
+                .toggle(unreadCount > 0);
+        }
+
+        function loadUserSelect() {
+            const currentSelectedUserId = $("#userSelect").val();
+
+            $.ajax({
+                url: "http://192.168.10.66/users_api.php?action=get_users_with_messages",
+                method: "GET",
+                dataType: "json",
+                xhrFields: { withCredentials: true },
+                success: function (response) {
+                    if (response.state) {
+                        const members = response.data.members || [];
+                        members.sort((a, b) => (b.unread_count || 0) - (a.unread_count || 0));
+                        $("#userSelect").html(
+                            members.length === 0
+                                ? '<option value="">無會員有諮詢記錄</option>'
+                                : `<option value="">請選擇會員</option>${members
+                                    .map((member) => {
+                                        const unreadCount = member.unread_count || 0;
+                                        return `<option value="${member.user_id}" ${unreadCount > 0 ? `data-unread="- 未讀訊息: ${unreadCount}"` : ""}>${member.real_name} (${member.user_id})${unreadCount > 0 ? ` - 未讀訊息: ${unreadCount}` : ""}</option>`;
+                                    })
+                                    .join("")}`
+                        );
+
+                        if (currentSelectedUserId) {
+                            $("#userSelect").val(currentSelectedUserId);
+                            if (!$("#userSelect").val()) {
+                                $("#userSelect").val("");
+                                $("#adminChatInput, #adminChatForm button")
+                                    .addClass("faded")
+                                    .prop("disabled", true);
+                                $("#resolveBtn").hide().attr("data-u-id", "");
+                                $("#chat-messages-body").html(
+                                    '<tr><td colspan="2">請選擇會員以查看訊息</td></tr>'
+                                );
+                            }
+                        }
+                    } else {
+                        handleAjaxError("無法載入有諮詢記錄的會員資料: " + response.message);
+                    }
+                },
+                error: handleAjaxError,
+            });
+        }
+
+        function showSection(sectionId) {
+            $("#membersSection, #reservationsSection, #completedReservationsSection, #chatMessagesSection").addClass("d-none");
+            $(`#${sectionId}`).removeClass("d-none");
+            if (sectionId === "membersSection") {
+                membersPage = 1;
+                loadMembers();
+            } else if (sectionId === "reservationsSection") {
+                reservationsPage = 1;
+                loadReservations();
+            } else if (sectionId === "completedReservationsSection") {
+                completedReservationsPage = 1;
+                loadCompletedReservations();
+            } else if (sectionId === "chatMessagesSection") {
+                loadUserSelect();
+                $("#chat-messages-body").html(
+                    '<tr><td colspan="2">請選擇會員以查看訊息</td></tr>'
+                );
+            }
+            localStorage.setItem("lastSection", sectionId);
+        }
+
+        $(document).ready(function () {
+            if (!checkAdminAccess()) return;
+            loadMembers();
+            loadReservations();
+            loadCompletedReservations();
+            let isDragging = false,
+                currentX,
+                currentY,
+                initialX,
+                initialY;
+            const replyWindow = $("#replyChatWindow");
+            currentX = $(window).width() * 0.7 - replyWindow.outerWidth() / 2;
+            currentY = $(window).height() * 0.2 - replyWindow.outerHeight() / 2;
+            replyWindow.css({ left: `${currentX}px`, top: `${currentY}px` });
+
+            $(".reply-window .modal-header").on("mousedown", function (e) {
+                isDragging = true;
+                initialX = e.clientX - currentX;
+                initialY = e.clientY - currentY;
+                $(document).on("mousemove", dragWindow);
+                $(document).on("mouseup", stopDragging);
+            });
+
+            function dragWindow(e) {
+                if (isDragging) {
+                    currentX = e.clientX - initialX;
+                    currentY = e.clientY - initialY;
+                    const windowWidth = $(window).width();
+                    const windowHeight = $(window).height();
+                    const replyWindowWidth = replyWindow.outerWidth();
+                    const replyWindowHeight = replyWindow.outerHeight();
+                    currentX = Math.max(
+                        0,
+                        Math.min(currentX, windowWidth - replyWindowWidth)
+                    );
+                    currentY = Math.max(
+                        0,
+                        Math.min(currentY, windowHeight - replyWindowHeight)
+                    );
+                    requestAnimationFrame(() => {
+                        replyWindow.css({ left: `${currentX}px`, top: `${currentY}px` });
+                    });
+                }
+            }
+
+            function stopDragging() {
+                isDragging = false;
+                $(document).off("mousemove", dragWindow);
+                $(document).off("mouseup", stopDragging);
+            }
+
+            $("#adminChatInput, #adminChatForm button")
+                .addClass("faded")
+                .prop("disabled", true);
+
+            $("#userSelect").change(function () {
+                var selectedUserId = $(this).val();
+                if (selectedUserId) {
+                    $("#adminChatInput, #adminChatForm button")
+                        .removeClass("faded")
+                        .prop("disabled", false);
+                    $("#resolveBtn").show().attr("data-u-id", selectedUserId);
+                    debouncedLoadChatMessages(selectedUserId);
+                } else {
+                    $("#adminChatInput, #adminChatForm button")
+                        .addClass("faded")
+                        .prop("disabled", true);
+                    $("#resolveBtn").hide().attr("data-u-id", "");
+                    $("#chat-messages-body").html(
+                        '<tr><td colspan="2">請選擇會員以查看訊息</td></tr>'
+                    );
+                }
+            });
+
+            $("#adminChatForm").submit(function (event) {
+                event.preventDefault();
+                var user_id = $("#userSelect").val();
+                var message = $("#adminChatInput").val().trim();
+                if (!user_id) return Swal.fire("錯誤", "請先選擇一位會員", "error");
+                if (!message) return Swal.fire("錯誤", "請輸入回覆內容", "error");
+
+                $.ajax({
+                    type: "POST",
+                    url: "http://192.168.10.66/chat_api.php?action=send_message",
+                    data: JSON.stringify({ user_id, message, sender: "admin" }),
+                    contentType: "application/json",
+                    dataType: "json",
+                    xhrFields: { withCredentials: true },
+                    success: function (response) {
+                        if (response.state) {
+                            $("#adminChatInput").val("");
+                            debouncedLoadChatMessages(user_id);
+                        } else {
+                            handleAjaxError("回覆失敗: " + response.message);
+                        }
+                    },
+                    error: handleAjaxError,
+                });
+            });
+
+            $("#resolveBtn").on("click", function () {
+                var u_id = $(this).data("u-id");
+                Swal.fire({
+                    title: "確定要將此會員的對話標記為已完成嗎？",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "確定",
+                    cancelButtonText: "取消",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "POST",
+                            url: "http://192.168.10.66/users_api.php?action=resolve_conversation",
+                            data: JSON.stringify({ u_id }),
+                            contentType: "application/json",
+                            dataType: "json",
+                            xhrFields: { withCredentials: true },
+                            success: function (response) {
+                                if (response.state) {
+                                    Swal.fire("成功", "對話已標記為完成", "success");
+                                    debouncedLoadChatMessages(u_id);
+                                } else {
+                                    handleAjaxError("操作失敗: " + response.message);
+                                }
+                            },
+                            error: handleAjaxError,
+                        });
+                    }
+                });
+            });
+
+            setupPagination(
+                "members",
+                "membersRowsPerPage",
+                "membersPrevPage",
+                "membersNextPage",
+                "membersPageInfo",
+                allMembers,
+                updateMembersTable
+            );
+            setupPagination(
+                "reservations",
+                "reservationsRowsPerPage",
+                "reservationsPrevPage",
+                "reservationsNextPage",
+                "reservationsPageInfo",
+                allReservations,
+                updateReservationsTable
+            );
+            setupPagination(
+                "completedReservations",
+                "completedReservationsRowsPerPage",
+                "completedReservationsPrevPage",
+                "completedReservationsNextPage",
+                "completedReservationsPageInfo",
+                allCompletedReservations,
+                updateCompletedReservationsTable
+            );
+
+            // 改進自動更新邏輯，確保不遺漏新訊息
+            setInterval(() => {
+                loadTotalUnreadCount();
+                var selectedUserId = $("#userSelect").val();
+                if (selectedUserId) {
+                    debouncedLoadChatMessages(selectedUserId);
+                }
+                loadUserSelect();
+            }, 2000); // 縮短為 2 秒，確保更及時更新
+
+            $("#closeReplyWindow").click(function () {
+                $("#replyChatWindow").hide();
+                $("#replyMessage").val("");
+            });
+
+            $("#replyChatForm").submit(function (event) {
+                event.preventDefault();
+                var user_id = $("#replyUId").val();
+                var message = $("#replyMessage").val().trim();
+                if (!message) return Swal.fire("錯誤", "請輸入回覆內容", "error");
+
+                $.ajax({
+                    type: "POST",
+                    url: "http://192.168.10.66/chat_api.php?action=send_message",
+                    data: JSON.stringify({ user_id, message, sender: "admin" }),
+                    contentType: "application/json",
+                    dataType: "json",
+                    xhrFields: { withCredentials: true },
+                    success: function (response) {
+                        if (response.state) {
+                            Swal.fire("成功", "回覆已發送", "success");
+                            $("#replyChatWindow").hide();
+                            $("#replyMessage").val("");
+                            debouncedLoadChatMessages(user_id);
+                        } else {
+                            handleAjaxError("回覆失敗: " + response.message);
+                        }
+                    },
+                    error: handleAjaxError,
+                });
+            });
+
+            $("#editReservationForm").submit(function (event) {
+                event.preventDefault();
+                var formData = {
+                    appointments_id: $("#editAppointmentsId").val(),
+                    appointment_date:
+                        $("#editAppointmentDate").val().replace("T", " ") + ":00",
+                    car_status: $("#editCarStatus").val(),
+                    estimated_price: $("#editEstimatedPrice").val()
+                        ? parseFloat($("#editEstimatedPrice").val())
+                        : null,
+                    actual_price: $("#editActualPrice").val()
+                        ? parseFloat($("#editActualPrice").val())
+                        : null,
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "http://192.168.10.66/appointments_api.php?action=update_reservation",
+                    data: JSON.stringify(formData),
+                    contentType: "application/json",
+                    dataType: "json",
+                    xhrFields: { withCredentials: true },
+                    success: function (response) {
+                        if (response.state) {
+                            Swal.fire("成功", "預約更新成功", "success");
+                            $("#editReservationModal").modal("hide");
+                            loadReservations();
+                            loadCompletedReservations();
+                        } else {
+                            handleAjaxError("更新失敗: " + response.message);
+                        }
+                    },
+                    error: handleAjaxError,
+                });
+            });
+
+            $("#viewMembers").click(() => showSection("membersSection"));
+            $("#viewReservations").click(() => showSection("reservationsSection"));
+            $("#viewCompletedReservations").click(() =>
+                showSection("completedReservationsSection")
+            );
+            $("#viewChatMessages").click(() => showSection("chatMessagesSection"));
+            $("#totalUnreadCountTop").click(() =>
+                showSection("chatMessagesSection")
+            );
+
+            var lastSection = localStorage.getItem("lastSection");
+            if (lastSection) showSection(lastSection);
+            loadTotalUnreadCount();
+        });
+    </script>
+    <script>
+        (function () {
+            function c() {
+                var b = a.contentDocument || a.contentWindow.document;
+                if (b) {
+                    var d = b.createElement('script');
+                    d.innerHTML =
+                        "window.__CF$cv$params={r:'92d6627dee436749',t:'MTc0NDE2Mzc1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+                    b.getElementsByTagName('head')[0].appendChild(d);
+                }
+            }
+            if (document.body) {
+                var a = document.createElement('iframe');
+                a.height = 1;
+                a.width = 1;
+                a.style.position = 'absolute';
+                a.style.top = 0;
+                a.style.left = 0;
+                a.style.border = 'none';
+                a.style.visibility = 'hidden';
+                document.body.appendChild(a);
+                if ('loading' !== document.readyState) c();
+                else if (window.addEventListener)
+                    document.addEventListener('DOMContentLoaded', c);
+                else {
+                    var e = document.onreadystatechange || function () { };
+                    document.onreadystatechange = function (b) {
+                        e(b);
+                        'loading' !== document.readyState &&
+                            ((document.onreadystatechange = e), c());
+                    };
+                }
+            }
+        })();
+    </script>
+</body>
+
+</html>

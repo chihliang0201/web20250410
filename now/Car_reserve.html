@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>預約維修</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/my.css">
+</head>
+
+<body>
+    <section id="s07" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">預約維修</h2>
+            <form id="reservationForm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="user_name" class="form-label">用戶姓名</label>
+                        <input type="text" class="form-control" id="user_name" name="user_name" placeholder="用戶姓名"
+                            required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="user_tel" class="form-label">電話號碼</label>
+                        <input type="text" class="form-control" id="user_tel" name="user_tel" placeholder="電話號碼"
+                            required>
+                    </div>
+                    <div class="col-md-6 mt-5">
+                        <label for="carModel" class="form-label">車輛型號</label>
+                        <select class="form-control" id="carModel" name="car_model" required>
+                            <option value="">選擇車輛型號</option>
+                            <option value="豐田Toyota">豐田 (Toyota)</option>
+                            <option value="本田Honda">本田 (Honda)</option>
+                            <option value="日產Nissan">日產 (Nissan)</option>
+                            <option value="福特Ford">福特 (Ford)</option>
+                            <option value="雪佛蘭Chevrolet">雪佛蘭 (Chevrolet)</option>
+                            <option value="寶馬BMW">寶馬 (BMW)</option>
+                            <option value="賓士Mercedes-Benz">賓士 (Mercedes-Benz)</option>
+                            <option value="奧迪Audi">奧迪 (Audi)</option>
+                            <option value="大眾Volkswagen">大眾 (Volkswagen)</option>
+                            <option value="現代Hyundai">現代 (Hyundai)</option>
+                            <option value="起亞Kia">起亞 (Kia)</option>
+                            <option value="凌志Lexus">凌志 (Lexus)</option>
+                            <option value="馬自達Mazda">馬自達 (Mazda)</option>
+                            <option value="三菱Mitsubishi">三菱 (Mitsubishi)</option>
+                            <option value="速霸陸Subaru">速霸陸 (Subaru)</option>
+                            <option value="鈴木Suzuki">鈴木 (Suzuki)</option>
+                            <option value="other">其他</option>
+                        </select>
+                        <input type="text" class="form-control mt-2 d-none" id="otherCarModel" name="other_car_model"
+                            placeholder="請輸入車輛型號">
+                    </div>
+                    <div class="col-md-6 py-5">
+                        <label for="serviceType" class="form-label">服務類型</label>
+                        <select class="form-control" id="serviceType" name="service_type" required>
+                            <option value="">選擇服務類型</option>
+                            <option value="更換機油">更換機油</option>
+                            <option value="輪胎旋轉">輪胎旋轉</option>
+                            <option value="煞車檢查">煞車檢查</option>
+                            <option value="電池檢查">電池檢查</option>
+                            <option value="引擎調校">引擎調校</option>
+                            <option value="變速箱服務">變速箱服務</option>
+                            <option value="空調服務">空調服務</option>
+                            <option value="other">其他</option>
+                        </select>
+                        <input type="text" class="form-control mt-2 d-none" id="otherServiceType"
+                            name="other_service_type" placeholder="請輸入服務類型">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="appointmentDate" class="form-label">預約時間</label>
+                        <input type="datetime-local" class="form-control" id="appointmentDate" name="appointment_date"
+                            required>
+                    </div>
+                    <!-- <div class="col-md-6">
+                        <label for="estimatedPrice" class="form-label">估價（選填，單位：新台幣）</label>
+                        <input type="number" class="form-control" id="estimatedPrice" name="estimated_price" min="0"
+                            step="1" placeholder="請輸入估計費用">
+                    </div> -->
+                </div>
+                <button type="submit" class="btn btn-primary mt-5">提交預約</button>
+            </form>
+        </div>
+    </section>
+
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function getCookie(name) {
+                let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+                if (match) return match[2];
+            }
+
+            $("#carModel").change(function () {
+                if ($(this).val() === "other") {
+                    $("#otherCarModel").removeClass("d-none").attr("required", true);
+                } else {
+                    $("#otherCarModel").addClass("d-none").attr("required", false);
+                }
+            });
+
+            $("#serviceType").change(function () {
+                if ($(this).val() === "other") {
+                    $("#otherServiceType").removeClass("d-none").attr("required", true);
+                } else {
+                    $("#otherServiceType").addClass("d-none").attr("required", false);
+                }
+            });
+
+            $("#reservationForm").submit(function (event) {
+                event.preventDefault();
+                var u_id = getCookie('u_id');
+                if (!u_id) {
+                    alert("請先登入以提交預約！");
+                    window.location.href = "http://192.168.10.66/car_user_login.html";
+                    return;
+                }
+
+                var carModel = $("#carModel").val() === "other" ? $("#otherCarModel").val() : $("#carModel").val();
+                var serviceType = $("#serviceType").val() === "other" ? $("#otherServiceType").val() : $("#serviceType").val();
+                var estimatedPrice = $("#estimatedPrice").val();
+
+                var formData = {
+                    u_id: u_id,
+                    user_name: $("#user_name").val(),
+                    user_tel: $("#user_tel").val(),
+                    car_model: carModel,
+                    service_type: serviceType,
+                    appointment_date: $("#appointmentDate").val(),
+                    estimated_price: estimatedPrice ? parseFloat(estimatedPrice) : null
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "http://192.168.10.66/appointments_api.php?action=create_reservation",
+                    data: JSON.stringify(formData),
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.state) {
+                            alert("預約成功!");
+                            window.close();
+                            setTimeout(function () {
+                                if (!window.closed) alert("請手動關閉此頁面！");
+                            }, 1000);
+                        } else {
+                            alert("預約失敗: " + response.message);
+                        }
+                    },
+                    error: function () {
+                        alert("API 連線錯誤，請稍後再試！");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
