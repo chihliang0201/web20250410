@@ -704,7 +704,7 @@
       if (u_id) {
         $.ajax({
           type: "POST",
-          url: "users_api.php?action=checkuid",
+          url: "https://chihliang.infinityfreeapp.com/users_api.php?action=checkuid",
           data: JSON.stringify({ u_id: u_id }),
           contentType: "application/json",
           dataType: "json",
@@ -736,7 +736,7 @@
       if (u_id && u_id !== "") {
         $.ajax({
           type: "POST",
-          url: "users_api.php?action=checkuid",
+          url: "https://chihliang.infinityfreeapp.com/users_api.php?action=checkuid",
           data: JSON.stringify({ u_id: u_id }),
           contentType: "application/json",
           dataType: "json",
@@ -777,7 +777,7 @@
         if (value.length > 2 && value.length < 11) {
           $.ajax({
             type: "POST",
-            url: "users_api.php?action=check_username",
+            url: "https://chihliang.infinityfreeapp.com/users_api.php?action=check_username",
             data: JSON.stringify({ user_name: value }),
             contentType: "application/json",
             dataType: "json",
@@ -884,7 +884,7 @@
         if (user_name.length > 2 && user_name.length < 11) {
           $.ajax({
             type: "POST",
-            url: "users_api.php?action=check_username",
+            url: "https://chihliang.infinityfreeapp.com/users_api.php?action=check_username",
             data: JSON.stringify({ user_name: user_name }),
             contentType: "application/json",
             dataType: "json",
@@ -923,7 +923,7 @@
           };
           $.ajax({
             type: "POST",
-            url: "users_api.php?action=register",
+            url: "https://chihliang.infinityfreeapp.com/users_api.php?action=register",
             data: JSON.stringify(JSONdata),
             contentType: "application/json",
             success: function (data) {
@@ -1033,7 +1033,7 @@
 
           $.ajax({
             type: "POST",
-            url: "users_api.php?action=update_profile",
+            url: "https://chihliang.infinityfreeapp.com/users_api.php?action=update_profile",
             data: JSON.stringify(formData),
             contentType: "application/json",
             dataType: "json",
