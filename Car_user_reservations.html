@@ -189,7 +189,7 @@
 
                 $.ajax({
                     type: "GET",
-                    url: "appointments_api.php?action=get_user_reservations",
+                    url: "https://chihliang.infinityfreeapp.com/appointments_api.php?action=get_user_reservations",
                     dataType: "json",
                     xhrFields: { withCredentials: true },
                     success: function (response) {
@@ -290,7 +290,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: "DELETE",
-                            url: "appointments_api.php?action=delete_reservation",
+                            url: "https://chihliang.infinityfreeapp.com/appointments_api.php?action=delete_reservation",
                             data: JSON.stringify({ appointments_id: appointmentsId }),
                             contentType: "application/json",
                             dataType: "json",
@@ -348,7 +348,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "appointments_api.php?action=update_reservation",
+                    url: "https://chihliang.infinityfreeapp.com/appointments_api.php?action=update_reservation",
                     data: JSON.stringify(formData),
                     contentType: "application/json",
                     dataType: "json",

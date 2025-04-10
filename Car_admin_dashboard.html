@@ -689,7 +689,7 @@
 
         function loadMembers() {
             $.ajax({
-                url: "users_api.php?action=get_all_users",
+                url: "https://chihliang.infinityfreeapp.com/users_api.php?action=get_all_users",
                 method: "GET",
                 dataType: "json",
                 async: false,
@@ -756,7 +756,7 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
-                                url: "users_api.php?action=suspend_user",
+                                url: "https://chihliang.infinityfreeapp.com/users_api.php?action=suspend_user",
                                 method: "POST",
                                 data: JSON.stringify({ user_id: userId }),
                                 contentType: "application/json",
@@ -789,7 +789,7 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
-                                url: "users_api.php?action=unsuspend_user",
+                                url: "https://chihliang.infinityfreeapp.com/users_api.php?action=unsuspend_user",
                                 method: "POST",
                                 data: JSON.stringify({ user_id: userId }),
                                 contentType: "application/json",
@@ -812,7 +812,7 @@
 
         function loadReservations() {
             $.ajax({
-                url: "appointments_api.php?action=get_all_reservations",
+                url: "https://chihliang.infinityfreeapp.com/appointments_api.php?action=get_all_reservations",
                 method: "GET",
                 dataType: "json",
                 async: false,
@@ -899,7 +899,7 @@
 
         function loadCompletedReservations() {
             $.ajax({
-                url: "appointments_api.php?action=get_completed_reservations",
+                url: "https://chihliang.infinityfreeapp.com/",
                 method: "GET",
                 dataType: "json",
                 async: false,
@@ -980,7 +980,7 @@
 
         function loadTotalUnreadCount() {
             $.ajax({
-                url: "users_api.php?action=get_total_unread_count",
+                url: "https://chihliang.infinityfreeapp.com/",
                 method: "GET",
                 dataType: "json",
                 xhrFields: { withCredentials: true },
@@ -1009,7 +1009,7 @@
             }
             $.ajax({
                 type: "GET",
-                url: `users_api.php?action=get_messages&u_id=${user_id}`,
+                url: `https://chihliang.infinityfreeapp.com/users_api.php?action=get_messages&u_id=${user_id}`,
                 dataType: "json",
                 xhrFields: { withCredentials: true },
                 success: function (response) {
@@ -1124,7 +1124,7 @@
             const currentSelectedUserId = $("#userSelect").val();
 
             $.ajax({
-                url: "users_api.php?action=get_users_with_messages",
+                url: "https://chihliang.infinityfreeapp.com/users_api.php?action=get_users_with_messages",
                 method: "GET",
                 dataType: "json",
                 xhrFields: { withCredentials: true },
@@ -1268,7 +1268,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "chat_api.php?action=send_message",
+                    url: "https://chihliang.infinityfreeapp.com/chat_api.php?action=send_message",
                     data: JSON.stringify({ user_id, message, sender: "admin" }),
                     contentType: "application/json",
                     dataType: "json",
@@ -1297,7 +1297,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: "POST",
-                            url: "users_api.php?action=resolve_conversation",
+                            url: "https://chihliang.infinityfreeapp.com/users_api.php?action=resolve_conversation",
                             data: JSON.stringify({ u_id }),
                             contentType: "application/json",
                             dataType: "json",
@@ -1367,7 +1367,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "chat_api.php?action=send_message",
+                    url: "https://chihliang.infinityfreeapp.com/chat_api.php?action=send_message",
                     data: JSON.stringify({ user_id, message, sender: "admin" }),
                     contentType: "application/json",
                     dataType: "json",
@@ -1402,7 +1402,7 @@
                 };
                 $.ajax({
                     type: "POST",
-                    url: "appointments_api.php?action=update_reservation",
+                    url: "https://chihliang.infinityfreeapp.com/appointments_api.php?action=update_reservation",
                     data: JSON.stringify(formData),
                     contentType: "application/json",
                     dataType: "json",
