@@ -46,7 +46,7 @@
 
     $.ajax({
         type: "POST",
-        url: "https://chihliang.infinityfreeapp.com/member_control_api_v1.php?action=checkuid",
+        url: "https://abc.sheep0201.xyz/member_control_api_v1.php?action=checkuid",
         data: JSON.stringify(JSONdata),
         dataType: "json",
         success: function (data) {

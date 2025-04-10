@@ -297,15 +297,15 @@
 
             if (!u_id) {
                 Swal.fire('錯誤', '請先登入！', 'error').then(() => {
-                    window.location.href = "https://chihliang.infinityfreeapp.com/car_user_login.html";
+                    window.location.href = "https://abc.sheep0201.xyz/car_user_login.html";
                 });
                 return;
             }
 
             if (level == 1) {
-                url = `https://chihliang.infinityfreeapp.com/appointments_api.php?action=get_all_reservations`;
+                url = `https://abc.sheep0201.xyz/appointments_api.php?action=get_all_reservations`;
             } else if (level == 2) {
-                url = `https://chihliang.infinityfreeapp.com/appointments_api.php?action=get_user_reservations`;
+                url = `https://abc.sheep0201.xyz/appointments_api.php?action=get_user_reservations`;
             } else {
                 Swal.fire('錯誤', '您無權查看此資料！', 'error');
                 return;

@@ -1,13 +1,13 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: https://chihliang0201.github.io');
+header('Access-Control-Allow-Origin: https://abc.sheep0201.xyz');
 header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    header('Access-Control-Allow-Origin: https://chihliang0201.github.io');
+    header('Access-Control-Allow-Origin: https://abc.sheep0201.xyz');
     header('Access-Control-Allow-Credentials: true');
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
     header('Access-Control-Allow-Headers: Content-Type');
@@ -15,10 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-const DB_SERVER    = "sql108.infinityfree.com";
-const DB_USER_NAME = "if0_38714653";
-const DB_PASSWORD  = "Bc0nlReBsIXMlZJ";
-const DB_NAME      = "if0_38714653_web";
+const DB_SERVER    = "127.0.0.1";
+const DB_USER_NAME = "fixcar";
+const DB_PASSWORD  = "8K9vZJfmtszh5ljzVF";
+const DB_NAME      = "project";
 
 function create_connection()
 {

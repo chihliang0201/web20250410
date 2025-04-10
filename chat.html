@@ -254,7 +254,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "https://chihliang.infinityfreeapp.com/chat_api.php?action=user_get_messages",
+                url: "https://abc.sheep0201.xyz/chat_api.php?action=user_get_messages",
                 data: JSON.stringify({ user_id: user_id }),
                 contentType: "application/json",
                 dataType: "json",
@@ -311,7 +311,7 @@
             if (u_id && u_id !== "") {
                 $.ajax({
                     type: "POST",
-                    url: "https://chihliang.infinityfreeapp.com/users_api.php?action=checkuid",
+                    url: "https://abc.sheep0201.xyz/users_api.php?action=checkuid",
                     async: false,
                     data: JSON.stringify({ u_id: u_id }),
                     contentType: "application/json",
@@ -347,7 +347,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "https://chihliang.infinityfreeapp.com/chat_api.php?action=send_message",
+                    url: "https://abc.sheep0201.xyz/chat_api.php?action=send_message",
                     data: JSON.stringify({
                         user_id: user_id,
                         message: message,

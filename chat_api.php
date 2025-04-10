@@ -2,18 +2,24 @@
 ob_start(); // 開始輸出緩衝區
 session_start();
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: https://chihliang0201.github.io.');
+header('Access-Control-Allow-Origin: https://abc.sheep0201.xyz');
 header('Access-Control-Allow-Credentials: true');
-header('Access-Control-Allow-Methods: GET, POST, DELETE');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
-const DB_SERVER    = "sql108.infinityfree.com";
-const DB_USER_NAME = "if0_38714653";
-const DB_PASSWORD  = "Bc0nlReBsIXMlZJ";
-const DB_NAME      = "if0_38714653_web";
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Origin: https://abc.sheep0201.xyz');
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+    header('Access-Control-Allow-Headers: Content-Type');
+    http_response_code(200);
+    exit;
+}
+
+const DB_SERVER    = "127.0.0.1";
+const DB_USER_NAME = "fixcar";
+const DB_PASSWORD  = "8K9vZJfmtszh5ljzVF";
+const DB_NAME      = "project";
 
 function create_connection()
 {
