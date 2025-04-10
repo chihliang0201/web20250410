@@ -2,7 +2,7 @@
 ob_start(); // 開始輸出緩衝區
 session_start();
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: http://192.168.10.66');
+header('Access-Control-Allow-Origin: https://chihliang.infinityfreeapp.com');
 header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Methods: GET, POST, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
@@ -10,10 +10,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-const DB_SERVER    = "sql109.infinityfree.com";
-const DB_USER_NAME = "if0_38646769";
-const DB_PASSWORD  = "SQoU7C5kdZo";
-const DB_NAME      = "if0_38646769_chihliang0201";
+const DB_SERVER    = "sql108.infinityfree.com";
+const DB_USER_NAME = "if0_38714653";
+const DB_PASSWORD  = "Bc0nlReBsIXMlZJ";
+const DB_NAME      = "if0_38714653_web";
 
 function create_connection()
 {

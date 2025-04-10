@@ -2,7 +2,7 @@
 ob_start(); // 開始輸出緩衝區
 session_start();
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: http://192.168.10.66');
+header('Access-Control-Allow-Origin: https://chihliang.infinityfreeapp.com');
 header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Methods: GET, POST, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
