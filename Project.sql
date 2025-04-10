@@ -1,6 +1,6 @@
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
--- http://www.phpmyadmin.net/
+-- https://www.phpmyadmin.net/
 --
 -- 主機： localhost
 -- 產生時間： 2025 年 04 月 09 日 14:02

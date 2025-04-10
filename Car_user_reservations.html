@@ -170,7 +170,7 @@
 
     <script src="js/jquery-3.7.1.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="http://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function () {
             function getCookie(name) {
@@ -189,7 +189,7 @@
 
                 $.ajax({
                     type: "GET",
-                    url: "http://chihliang.infinityfreeapp.com/appointments_api.php?action=get_user_reservations",
+                    url: "https://chihliang.infinityfreeapp.com/appointments_api.php?action=get_user_reservations",
                     dataType: "json",
                     xhrFields: { withCredentials: true },
                     success: function (response) {
@@ -290,7 +290,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: "DELETE",
-                            url: "http://chihliang.infinityfreeapp.com/appointments_api.php?action=delete_reservation",
+                            url: "https://chihliang.infinityfreeapp.com/appointments_api.php?action=delete_reservation",
                             data: JSON.stringify({ appointments_id: appointmentsId }),
                             contentType: "application/json",
                             dataType: "json",
@@ -348,7 +348,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "http://chihliang.infinityfreeapp.com/appointments_api.php?action=update_reservation",
+                    url: "https://chihliang.infinityfreeapp.com/appointments_api.php?action=update_reservation",
                     data: JSON.stringify(formData),
                     contentType: "application/json",
                     dataType: "json",

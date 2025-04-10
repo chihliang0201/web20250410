@@ -225,7 +225,7 @@
 
     <script src="js/jquery-3.7.1.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="http://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         var user_id = "";
         function getCookie(name) {
@@ -254,7 +254,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "http://chihliang.infinityfreeapp.com/chat_api.php?action=user_get_messages",
+                url: "https://chihliang.infinityfreeapp.com/chat_api.php?action=user_get_messages",
                 data: JSON.stringify({ user_id: user_id }),
                 contentType: "application/json",
                 dataType: "json",
@@ -311,7 +311,7 @@
             if (u_id && u_id !== "") {
                 $.ajax({
                     type: "POST",
-                    url: "http://chihliang.infinityfreeapp.com/users_api.php?action=checkuid",
+                    url: "https://chihliang.infinityfreeapp.com/users_api.php?action=checkuid",
                     async: false,
                     data: JSON.stringify({ u_id: u_id }),
                     contentType: "application/json",
@@ -347,7 +347,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "http://chihliang.infinityfreeapp.com/chat_api.php?action=send_message",
+                    url: "https://chihliang.infinityfreeapp.com/chat_api.php?action=send_message",
                     data: JSON.stringify({
                         user_id: user_id,
                         message: message,

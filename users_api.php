@@ -15,7 +15,7 @@ function create_connection()
 {
     $conn = mysqli_connect(DB_SERVER, DB_USER_NAME, DB_PASSWORD, DB_NAME);
     if (! $conn) {
-        http_response_code(500);
+        https_response_code(500);
         echo json_encode(["state" => false, "message" => "資料庫連線失敗: " . mysqli_connect_error()]);
         exit;
     }
