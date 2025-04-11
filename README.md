@@ -23,7 +23,7 @@
 | **管理功能**  | 後台管理                   | 管理用戶與預約資料                   |
 |               | 預約資料表格               | 檢視所有預約記錄                     |
 
-## 技術棧
+## 相關技術
 
 - **前端**：HTML5, CSS3, Bootstrap 5.3.3, jQuery 3.7.1  
 - **後端**：AJAX 串接 API  
@@ -32,7 +32,7 @@
 | **類別**      | **技術**                     |
 |---------------|-----------------------------|
 | **前端**      | HTML5, CSS3, Bootstrap 5.3.3, jQuery 3.7.1, WOW.js, SweetAlert2, Font Awesome |
-| **後端與資料**| AJAX 串接 API（`https://abc.sheep0201.xyz/users_api.php`），Cookie 管理 |
+| **後端與資料**| AJAX 串接 API，Cookie 管理 |
 | **其他**      | Google Maps API, Cloudflare 安全驗證 |
 
 ## 聯絡方式
