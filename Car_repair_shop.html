@@ -73,10 +73,10 @@
                 <a class="nav-link d-none" href="#" id="s02_admin_dashboard_btn"
                   onclick="openAdminDashboardWindow()">後台管理</a>
               </li>
-              <!-- 新增「預約資料表格」選項 -->
+              <!-- 新增「報表表格」選項 -->
               <li class="nav-item">
                 <a class="nav-link" href="#" id="s02_appointments_table_btn"
-                  onclick="openAppointmentsTableWindow()">預約資料表格</a>
+                  onclick="openAppointmentsTableWindow()">報表</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -633,14 +633,14 @@
         $("#s02_Car_user_reservations_btn").addClass("d-none"); // 隱藏會員預約按鈕
         $("#s02_edit_profile_btn").addClass("d-none"); // 隱藏修改會員資料按鈕
         $("#s02_chat_btn").addClass("d-none"); // 管理員隱藏線上諮詢按鈕
-        $("#s02_appointments_table_btn").removeClass("d-none"); // 管理員顯示預約資料表格按鈕
+        $("#s02_appointments_table_btn").removeClass("d-none"); // 管理員顯示報表表格按鈕
       } else if (level == 2) {
         $("#s02_admin_dashboard_btn").addClass("d-none"); // 隱藏管理員專區按鈕
         $("#s02_appointment_btn").removeClass("d-none"); // 顯示預約維修按鈕
         $("#s02_Car_user_reservations_btn").removeClass("d-none"); // 顯示會員預約按鈕
         $("#s02_edit_profile_btn").removeClass("d-none"); // 顯示修改會員資料按鈕
         $("#s02_chat_btn").removeClass("d-none"); // 一般會員顯示線上諮詢按鈕
-        $("#s02_appointments_table_btn").addClass("d-none"); // 一般會員顯示預約資料表格按鈕
+        $("#s02_appointments_table_btn").addClass("d-none"); // 一般會員顯示報表表格按鈕
       }
     }
 
@@ -685,7 +685,7 @@
       );
     }
 
-    // 新增開啟預約資料表格視窗的函數
+    // 新增開啟報表表格視窗的函數
     function openAppointmentsTableWindow() {
       window.open(
         "appointments_table.html",
@@ -751,18 +751,18 @@
                 icon: "warning",
               });
               $("#s02_chat_btn").addClass("d-none"); // 驗證失敗時隱藏線上諮詢
-              $("#s02_appointments_table_btn").addClass("d-none"); // 驗證失敗時隱藏預約資料表格按鈕
+              $("#s02_appointments_table_btn").addClass("d-none"); // 驗證失敗時隱藏報表表格按鈕
             }
           },
           error: function () {
             Swal.fire({ title: "API介接錯誤", icon: "error" });
             $("#s02_chat_btn").addClass("d-none"); // API 錯誤時隱藏線上諮詢
-            $("#s02_appointments_table_btn").addClass("d-none"); // API 錯誤時隱藏預約資料表格按鈕
+            $("#s02_appointments_table_btn").addClass("d-none"); // API 錯誤時隱藏報表表格按鈕
           },
         });
       } else {
         $("#s02_chat_btn").addClass("d-none"); // 未登入時隱藏線上諮詢
-        $("#s02_appointments_table_btn").addClass("d-none"); // 未登入時隱藏預約資料表格按鈕
+        $("#s02_appointments_table_btn").addClass("d-none"); // 未登入時隱藏報表表格按鈕
       }
     });
 
@@ -1068,7 +1068,7 @@
         setCookie("u_id", "", -1); // 刪除 Cookie
         setCookie("level", "", -1); // 刪除 Cookie
         $("#s02_chat_btn").addClass("d-none"); // 登出時隱藏線上諮詢
-        $("#s02_appointments_table_btn").addClass("d-none"); // 登出時隱藏預約資料表格按鈕
+        $("#s02_appointments_table_btn").addClass("d-none"); // 登出時隱藏報表表格按鈕
         location.href = "Car_repair_shop.html";
       });
     });
