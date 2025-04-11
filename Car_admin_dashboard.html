@@ -899,7 +899,7 @@
 
         function loadCompletedReservations() {
             $.ajax({
-                url: "https://abc.sheep0201.xyz/",
+                url: "https://abc.sheep0201.xyz/appointments_api.php?action=get_completed_reservations",
                 method: "GET",
                 dataType: "json",
                 async: false,
@@ -980,7 +980,7 @@
 
         function loadTotalUnreadCount() {
             $.ajax({
-                url: "https://abc.sheep0201.xyz/",
+                url: "https://abc.sheep0201.xyz/users_api.php?action=get_total_unread_count",
                 method: "GET",
                 dataType: "json",
                 xhrFields: { withCredentials: true },
